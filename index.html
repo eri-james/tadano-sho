@@ -353,7 +353,6 @@
           currentEventData = (results.data || [])
             .filter(row => row.Trainer && String(row.Trainer).trim() !== "")
             .map(row => {
-              // Gracefully handle Points whether column is called Points or Total_Points
               const pts = row.Points !== undefined ? row.Points : (row.Total_Points !== undefined ? row.Total_Points : 0);
               return {
                 ...row,
@@ -414,10 +413,22 @@
       const container = document.getElementById('podiumContainer');
       const tableBody = document.getElementById('tableBody');
 
-      // Filter by active division and sort by Points descending
+      // Filter by active division and apply competitive multi-tier tiebreaker sorting:
+      // 1. Points (Descending)
+      // 2. Wins (Descending)
+      // 3. Podiums (Descending)
+      // 4. Avg Position (Ascending - e.g. 1.25 is better than 2.00)
       const filtered = currentEventData
         .filter(r => r.Division.toLowerCase() === currentDivision.toLowerCase())
-        .sort((a, b) => b.Points - a.Points);
+        .sort((a, b) => {
+          if (b.Points !== a.Points) return b.Points - a.Points;
+          if (b.Wins !== a.Wins) return b.Wins - a.Wins;
+          if (b.Podiums !== a.Podiums) return b.Podiums - a.Podiums;
+
+          const avgA = a.Avg_Pos !== null && a.Avg_Pos !== undefined ? a.Avg_Pos : 999;
+          const avgB = b.Avg_Pos !== null && b.Avg_Pos !== undefined ? b.Avg_Pos : 999;
+          return avgA - avgB;
+        });
 
       // 1. Render Top 3 Podium Cards
       const top1 = filtered[0];
