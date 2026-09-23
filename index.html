@@ -9,9 +9,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- AOS (Animate On Scroll) for slick motion graphics -->
+  <!-- AOS (Animate On Scroll) -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts (Cinzel for prestige & Rajdhani for sports numbers) -->
+  <!-- Google Fonts: Cinzel (Prestige/Logo), Rajdhani (Sports/Numbers), Inter (UI) -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -40,7 +40,7 @@
     .brand-title {
       font-family: 'Cinzel', serif;
       letter-spacing: 2px;
-      background: linear-gradient(135deg, #fff 20%, var(--accent-gold) 100%);
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent-gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -53,15 +53,56 @@
       font-weight: 700;
     }
 
-    /* Division Toggle Pills */
+    /* Server Toggle Buttons */
+    .server-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      border-radius: 30px;
+      padding: 8px 22px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: all 0.25s ease;
+    }
+    .server-pill:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    .server-pill.active {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    }
+
+    /* Event Dropdown */
+    .event-dropdown {
+      background: #151b28;
+      border: 1px solid rgba(245, 197, 24, 0.4);
+      color: var(--accent-gold);
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(245, 197, 24, 0.1);
+      transition: all 0.3s ease;
+    }
+    .event-dropdown:focus {
+      box-shadow: 0 0 20px var(--accent-gold-glow);
+      border-color: var(--accent-gold);
+      outline: none;
+    }
+
+    /* Division Switcher Buttons */
     .division-pill {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #bbb;
+      color: #aaa;
       border-radius: 30px;
-      padding: 10px 28px;
+      padding: 10px 24px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .division-pill:hover {
@@ -69,7 +110,7 @@
       border-color: rgba(255, 255, 255, 0.3);
     }
     .division-pill.active {
-      background: linear-gradient(135deg, #1e283d, #253350);
+      background: linear-gradient(135deg, #1b2438, #24314c);
       border-color: var(--accent-gold);
       color: var(--accent-gold);
       box-shadow: 0 0 20px var(--accent-gold-glow);
@@ -85,12 +126,12 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .podium-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
     }
 
     .podium-1 {
-      border-color: rgba(245, 197, 24, 0.5);
-      box-shadow: 0 0 25px rgba(245, 197, 24, 0.15);
+      border-color: rgba(245, 197, 24, 0.6);
+      box-shadow: 0 0 30px rgba(245, 197, 24, 0.15);
     }
     .podium-2 {
       border-color: rgba(200, 210, 225, 0.3);
@@ -104,9 +145,10 @@
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
+      background-color: #1a2234;
       border: 3px solid rgba(255, 255, 255, 0.2);
     }
-    .podium-1 .podium-avatar { border-color: var(--accent-gold); }
+    .podium-1 .podium-avatar { border-color: var(--accent-gold); width: 90px; height: 90px; }
     .podium-2 .podium-avatar { border-color: #cbd5e1; }
     .podium-3 .podium-avatar { border-color: #cd7f32; }
 
@@ -114,13 +156,13 @@
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      padding: 4px 12px;
+      padding: 4px 14px;
       border-radius: 20px;
     }
 
     .score-num {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       font-weight: 700;
       line-height: 1;
     }
@@ -164,43 +206,76 @@
     .rank-2 { background: #cbd5e1; color: #000; }
     .rank-3 { background: #cd7f32; color: #fff; }
 
-    /* Animated Motion */
+    /* Transitions & Loaders */
     .fade-content {
       animation: fadeIn 0.4s ease-out forwards;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    .loading-pulse {
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Hero Bar -->
+  <!-- Top Hero Header -->
   <div class="container py-5 text-center" data-aos="fade-down">
     <div class="sub-brand mb-1">Seasonal Grand Prix Revival</div>
     <h1 class="brand-title display-4 fw-bolder mb-2">只野賞 TADANO SHO</h1>
-    <p class="text-secondary small">Asynchronous League Circuit &bull; 2026 Season</p>
+    <p class="text-secondary small mb-4">Asynchronous League Circuit &bull; 2026 Season</p>
 
-    <!-- Division Switcher -->
-    <div class="d-flex justify-content-center gap-3 my-4">
-      <button class="btn division-pill active" onclick="switchDivision('Graded')">
+    <!-- Server Toggle (JP vs EN) -->
+    <div class="d-flex justify-content-center gap-2 mb-3">
+      <button class="btn server-pill active" id="btnServerJP" onclick="switchServer('JP')">
+        🇯🇵 JP Server
+      </button>
+      <button class="btn server-pill" id="btnServerEN" onclick="switchServer('EN')">
+        🌐 EN Global
+      </button>
+    </div>
+
+    <!-- Event Switcher Dropdown -->
+    <div class="d-flex justify-content-center my-3">
+      <select class="form-select w-auto event-dropdown" id="eventSelect" onchange="changeEvent(this.value)">
+        <option value="ALL_TIME">🏆 All-Time Standings (2026)</option>
+        <option value="PHANTOM_SPRINT">🎃 Phantom Sprint (October)</option>
+      </select>
+    </div>
+
+    <!-- Division Switcher Buttons -->
+    <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+      <button class="btn division-pill active" id="btnGraded" onclick="switchDivision('Graded')">
         <i class="bi bi-trophy-fill me-2 text-warning"></i>Graded Division
       </button>
-      <button class="btn division-pill" onclick="switchDivision('Open')">
-        <i class="bi bi-shield-check me-2 text-info"></i>Open Division (UC Capped)
+      <button class="btn division-pill" id="btnOpen" onclick="switchDivision('Open')">
+        <i class="bi bi-shield-check me-2 text-info"></i><span id="openDivisionLabel">Open Division (UC Capped)</span>
       </button>
     </div>
   </div>
 
+  <!-- Main Standings Display Container -->
   <div class="container pb-5">
+
+    <!-- Loading State -->
+    <div id="loadingIndicator" class="text-center py-5 d-none">
+      <div class="spinner-border text-warning mb-2" role="status"></div>
+      <div class="text-muted small loading-pulse">Fetching live standings from Google Sheets...</div>
+    </div>
+
     <!-- Top 3 Podium (Populated by JS) -->
     <div class="row g-4 justify-content-center mb-5 align-items-end" id="podiumContainer" data-aos="fade-up">
       <!-- Generated Dynamically -->
     </div>
 
-    <!-- Complete Standings Table -->
-    <div class="custom-table" data-aos="fade-up" data-aos-delay="150">
+    <!-- Standings Table -->
+    <div class="custom-table" data-aos="fade-up" data-aos-delay="100">
       <div class="table-responsive">
         <table class="table table-dark table-hover align-middle">
           <thead>
@@ -226,155 +301,220 @@
     </div>
   </div>
 
-  <!-- PapaParse for Google Sheets CSV -->
+  <!-- External CDNs -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <!-- AOS Animation Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   
   <script>
-    // Initialize AOS Motion Graphics
-    AOS.init({ duration: 600, once: true });
+    // Initialize AOS animations
+    AOS.init({ duration: 500, once: true });
 
     // ========================================================
-    // 1. PUT YOUR GOOGLE SHEET CSV URL HERE!
+    // Live Published Google Sheet CSV Links (JP & EN)
     // ========================================================
-    // To get this link: File -> Share -> Publish to web -> Choose CSV format
-    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv"; 
-
-    // Fallback Mock Data (so the page displays immediately if Sheet URL is blank)
-    const MOCK_DATA = [
-      { Trainer: "Aikawa", Division: "Graded", Points: 38, Wins: 2, Podiums: 5, Races: 5, Avg_Pos: 1.6, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Aikawa" },
-      { Trainer: "HikariNoSora34", Division: "Graded", Points: 37, Wins: 2, Podiums: 5, Races: 6, Avg_Pos: 2.33, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Hikari" },
-      { Trainer: "Hez Azuryn", Division: "Graded", Points: 36, Wins: 2, Podiums: 5, Races: 6, Avg_Pos: 2.33, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Hez" },
-      { Trainer: "ewidaria", Division: "Graded", Points: 21, Wins: 0, Podiums: 3, Races: 7, Avg_Pos: 3.57, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=ewidaria" },
-      { Trainer: "Erron", Division: "Graded", Points: 19, Wins: 1, Podiums: 3, Races: 4, Avg_Pos: 3.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Erron" },
-      { Trainer: "nyumpoi", Division: "Graded", Points: 2, Wins: 0, Podiums: 0, Races: 1, Avg_Pos: 4.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=nyumpoi" },
-      { Trainer: "Ricky", Division: "Graded", Points: 1, Wins: 0, Podiums: 0, Races: 1, Avg_Pos: 6.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Ricky" },
-
-      { Trainer: "HikariNoSora34", Division: "Open", Points: 52, Wins: 4, Podiums: 6, Races: 6, Avg_Pos: 1.33, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Hikari" },
-      { Trainer: "Aikawa", Division: "Open", Points: 32, Wins: 1, Podiums: 5, Races: 5, Avg_Pos: 2.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Aikawa" },
-      { Trainer: "Hez Azuryn", Division: "Open", Points: 28, Wins: 2, Podiums: 3, Races: 4, Avg_Pos: 2.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Hez" },
-      { Trainer: "ewidaria", Division: "Open", Points: 18, Wins: 0, Podiums: 3, Races: 7, Avg_Pos: 3.86, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=ewidaria" },
-      { Trainer: "Erron", Division: "Open", Points: 11, Wins: 0, Podiums: 1, Races: 4, Avg_Pos: 3.75, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Erron" },
-      { Trainer: "Ricky", Division: "Open", Points: 8, Wins: 0, Podiums: 2, Races: 2, Avg_Pos: 3.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Ricky" },
-      { Trainer: "nyumpoi", Division: "Open", Points: 4, Wins: 0, Podiums: 1, Races: 1, Avg_Pos: 3.0, Avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=nyumpoi" }
-    ];
-
-    let fullData = [];
-    let currentDivision = 'Graded';
-
-    // Fetch and Load Data
-    async function init() {
-      if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.trim() !== "") {
-        Papa.parse(GOOGLE_SHEET_CSV_URL, {
-          download: true,
-          header: true,
-          dynamicTyping: true,
-          complete: function(results) {
-            fullData = results.data.filter(row => row.Trainer);
-            render();
-          },
-          error: function(err) {
-            console.warn("Could not load Google Sheet, loading fallback data", err);
-            fullData = MOCK_DATA;
-            render();
-          }
-        });
-      } else {
-        fullData = MOCK_DATA;
-        render();
+    const SHEET_URLS = {
+      JP: {
+        ALL_TIME: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv",
+        PHANTOM_SPRINT: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1767697908&single=true&output=csv"
+      },
+      EN: {
+        ALL_TIME: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1135525613&single=true&output=csv",
+        PHANTOM_SPRINT: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1620695949&single=true&output=csv"
       }
+    };
+
+    let currentServer = 'JP';
+    let currentEvent = 'ALL_TIME';
+    let currentDivision = 'Graded';
+    let currentEventData = [];
+
+    // Helper: Returns automatic avatar fallback if user avatar fails or is empty
+    function getFallbackAvatar(name) {
+      return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name || 'Trainer')}`;
     }
 
+    // Load data from Google Sheets CSV based on Server and Event
+    function loadData() {
+      const url = SHEET_URLS[currentServer]?.[currentEvent];
+      if (!url) return;
+
+      const loader = document.getElementById('loadingIndicator');
+      loader.classList.remove('d-none');
+
+      Papa.parse(url, {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          loader.classList.add('d-none');
+          
+          // Clean & normalize data rows
+          currentEventData = (results.data || [])
+            .filter(row => row.Trainer && String(row.Trainer).trim() !== "")
+            .map(row => {
+              // Gracefully handle Points whether column is called Points or Total_Points
+              const pts = row.Points !== undefined ? row.Points : (row.Total_Points !== undefined ? row.Total_Points : 0);
+              return {
+                ...row,
+                Trainer: String(row.Trainer).trim(),
+                Division: String(row.Division || 'Graded').trim(),
+                Points: Number(pts) || 0,
+                Wins: Number(row.Wins) || 0,
+                Podiums: Number(row.Podiums) || 0,
+                Races: Number(row.Races) || 0,
+                Avg_Pos: row.Avg_Pos !== undefined && row.Avg_Pos !== null && row.Avg_Pos !== "" ? Number(row.Avg_Pos) : null,
+                Avatar: (row.Avatar && String(row.Avatar).trim() !== "") ? String(row.Avatar).trim() : null
+              };
+            });
+
+          render();
+        },
+        error: function(err) {
+          loader.classList.add('d-none');
+          console.error("Failed to load Google Sheet CSV:", err);
+          render();
+        }
+      });
+    }
+
+    // Switch Server (JP vs EN)
+    function switchServer(serverKey) {
+      currentServer = serverKey;
+      document.getElementById('btnServerJP').classList.toggle('active', serverKey === 'JP');
+      document.getElementById('btnServerEN').classList.toggle('active', serverKey === 'EN');
+
+      // Update Open Division label dynamically based on server meta
+      const openLabel = document.getElementById('openDivisionLabel');
+      if (serverKey === 'JP') {
+        openLabel.innerText = "Open Division (UC Capped)";
+      } else {
+        openLabel.innerText = "Open Division (A+ Capped)";
+      }
+
+      loadData();
+    }
+
+    // Switch between All-Time and Phantom Sprint
+    function changeEvent(eventKey) {
+      currentEvent = eventKey;
+      loadData();
+    }
+
+    // Switch between Graded and Open division
     function switchDivision(div) {
       currentDivision = div;
-      document.querySelectorAll('.division-pill').forEach(btn => {
-        btn.classList.toggle('active', btn.innerText.includes(div));
-      });
+      document.getElementById('btnGraded').classList.toggle('active', div === 'Graded');
+      document.getElementById('btnOpen').classList.toggle('active', div === 'Open');
       render();
     }
 
+    // Render Podium & Standings Table
     function render() {
       const container = document.getElementById('podiumContainer');
       const tableBody = document.getElementById('tableBody');
 
-      // Filter and Sort Data by Points
-      const filtered = fullData
-        .filter(r => (r.Division || '').toLowerCase() === currentDivision.toLowerCase())
-        .sort((a, b) => (b.Points || 0) - (a.Points || 0));
+      // Filter by active division and sort by Points descending
+      const filtered = currentEventData
+        .filter(r => r.Division.toLowerCase() === currentDivision.toLowerCase())
+        .sort((a, b) => b.Points - a.Points);
 
-      // 1. Render Top 3 Podium (2nd, 1st, 3rd display order)
+      // 1. Render Top 3 Podium Cards
       const top1 = filtered[0];
       const top2 = filtered[1];
       const top3 = filtered[2];
 
       container.className = "row g-4 justify-content-center mb-5 align-items-end fade-content";
-      container.innerHTML = `
-        <!-- 2nd Place -->
-        ${top2 ? `
-        <div class="col-md-4 col-sm-6 order-2 order-md-1">
-          <div class="podium-card podium-2 p-4 text-center">
-            <span class="podium-badge bg-secondary mb-3 d-inline-block text-dark">2nd Place</span>
-            <img src="${top2.Avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + top2.Trainer}" class="podium-avatar mb-3 d-block mx-auto">
-            <h5 class="fw-bold mb-1">${top2.Trainer}</h5>
-            <div class="score-num text-light my-2">${top2.Points} <small class="fs-6 text-muted">pts</small></div>
-            <div class="text-secondary small">${top2.Wins || 0} wins &bull; ${top2.Podiums || 0} podiums</div>
-          </div>
-        </div>` : ''}
+      
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-12 text-center py-4 text-muted">
+            <i class="bi bi-flag fs-3 d-block mb-2"></i>
+            No race entries recorded for ${currentServer} ${currentDivision} Division yet.
+          </div>`;
+      } else {
+        container.innerHTML = `
+          <!-- 2nd Place -->
+          ${top2 ? `
+          <div class="col-md-4 col-sm-6 order-2 order-md-1">
+            <div class="podium-card podium-2 p-4 text-center">
+              <span class="podium-badge bg-secondary mb-3 d-inline-block text-dark">2nd Place</span>
+              <img src="${top2.Avatar || getFallbackAvatar(top2.Trainer)}" 
+                   onerror="this.onerror=null; this.src='${getFallbackAvatar(top2.Trainer)}';" 
+                   class="podium-avatar mb-3 d-block mx-auto shadow">
+              <h5 class="fw-bold mb-1">${top2.Trainer}</h5>
+              <div class="score-num text-light my-2">${top2.Points} <small class="fs-6 text-muted">pts</small></div>
+              <div class="text-secondary small">${top2.Wins} wins &bull; ${top2.Podiums} podiums</div>
+            </div>
+          </div>` : ''}
 
-        <!-- 1st Place (Center / Taller) -->
-        ${top1 ? `
-        <div class="col-md-4 col-sm-6 order-1 order-md-2">
-          <div class="podium-card podium-1 p-4 pb-5 text-center">
-            <span class="podium-badge bg-warning mb-3 d-inline-block text-dark"><i class="bi bi-crown-fill me-1"></i> Leader</span>
-            <img src="${top1.Avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + top1.Trainer}" class="podium-avatar mb-3 d-block mx-auto shadow-lg">
-            <h4 class="fw-bold mb-1 text-warning">${top1.Trainer}</h4>
-            <div class="score-num text-warning my-2">${top1.Points} <small class="fs-6 text-warning-emphasis">pts</small></div>
-            <div class="text-secondary small">${top1.Wins || 0} wins &bull; ${top1.Podiums || 0} podiums</div>
-          </div>
-        </div>` : ''}
+          <!-- 1st Place (Center / Taller) -->
+          ${top1 ? `
+          <div class="col-md-4 col-sm-6 order-1 order-md-2">
+            <div class="podium-card podium-1 p-4 pb-5 text-center">
+              <span class="podium-badge bg-warning mb-3 d-inline-block text-dark"><i class="bi bi-crown-fill me-1"></i> Leader</span>
+              <img src="${top1.Avatar || getFallbackAvatar(top1.Trainer)}" 
+                   onerror="this.onerror=null; this.src='${getFallbackAvatar(top1.Trainer)}';" 
+                   class="podium-avatar mb-3 d-block mx-auto shadow-lg">
+              <h4 class="fw-bold mb-1 text-warning">${top1.Trainer}</h4>
+              <div class="score-num text-warning my-2">${top1.Points} <small class="fs-6 text-warning-emphasis">pts</small></div>
+              <div class="text-secondary small">${top1.Wins} wins &bull; ${top1.Podiums} podiums</div>
+            </div>
+          </div>` : ''}
 
-        <!-- 3rd Place -->
-        ${top3 ? `
-        <div class="col-md-4 col-sm-6 order-3 order-md-3">
-          <div class="podium-card podium-3 p-4 text-center">
-            <span class="podium-badge bg-dark border border-secondary mb-3 d-inline-block text-light">3rd Place</span>
-            <img src="${top3.Avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + top3.Trainer}" class="podium-avatar mb-3 d-block mx-auto">
-            <h5 class="fw-bold mb-1">${top3.Trainer}</h5>
-            <div class="score-num text-light my-2">${top3.Points} <small class="fs-6 text-muted">pts</small></div>
-            <div class="text-secondary small">${top3.Wins || 0} wins &bull; ${top3.Podiums || 0} podiums</div>
-          </div>
-        </div>` : ''}
-      `;
-
-      // 2. Render Table Rows
-      tableBody.className = "fade-content";
-      tableBody.innerHTML = filtered.map((row, index) => {
-        const rank = index + 1;
-        const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
-        return `
-          <tr>
-            <td class="text-center">
-              <span class="rank-circle ${rankClass}">${rank}</span>
-            </td>
-            <td>
-              <div class="d-flex align-items-center gap-3">
-                <img src="${row.Avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + row.Trainer}" width="32" height="32" class="rounded-circle">
-                <span class="fw-bold">${row.Trainer}</span>
-              </div>
-            </td>
-            <td class="text-center fw-bold text-warning fs-5">${row.Points || 0}</td>
-            <td class="text-center text-secondary">${row.Wins || 0}</td>
-            <td class="text-center text-secondary">${row.Podiums || 0}</td>
-            <td class="text-center text-secondary">${row.Races || 0}</td>
-            <td class="text-center text-secondary">${row.Avg_Pos ? Number(row.Avg_Pos).toFixed(2) : '-'}</td>
-          </tr>
+          <!-- 3rd Place -->
+          ${top3 ? `
+          <div class="col-md-4 col-sm-6 order-3 order-md-3">
+            <div class="podium-card podium-3 p-4 text-center">
+              <span class="podium-badge bg-dark border border-secondary mb-3 d-inline-block text-light">3rd Place</span>
+              <img src="${top3.Avatar || getFallbackAvatar(top3.Trainer)}" 
+                   onerror="this.onerror=null; this.src='${getFallbackAvatar(top3.Trainer)}';" 
+                   class="podium-avatar mb-3 d-block mx-auto shadow">
+              <h5 class="fw-bold mb-1">${top3.Trainer}</h5>
+              <div class="score-num text-light my-2">${top3.Points} <small class="fs-6 text-muted">pts</small></div>
+              <div class="text-secondary small">${top3.Wins} wins &bull; ${top3.Podiums} podiums</div>
+            </div>
+          </div>` : ''}
         `;
-      }).join('');
+      }
+
+      // 2. Render Full Standings Table Rows
+      tableBody.className = "fade-content";
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-4 text-muted">Waiting for race results to be logged in Google Sheets.</td>
+          </tr>`;
+      } else {
+        tableBody.innerHTML = filtered.map((row, index) => {
+          const rank = index + 1;
+          const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
+          return `
+            <tr>
+              <td class="text-center">
+                <span class="rank-circle ${rankClass}">${rank}</span>
+              </td>
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <img src="${row.Avatar || getFallbackAvatar(row.Trainer)}" 
+                       onerror="this.onerror=null; this.src='${getFallbackAvatar(row.Trainer)}';" 
+                       width="34" height="34" class="rounded-circle" style="object-fit: cover; background: #1a2234;">
+                  <span class="fw-bold">${row.Trainer}</span>
+                </div>
+              </td>
+              <td class="text-center fw-bold text-warning fs-5">${row.Points}</td>
+              <td class="text-center text-secondary">${row.Wins}</td>
+              <td class="text-center text-secondary">${row.Podiums}</td>
+              <td class="text-center text-secondary">${row.Races}</td>
+              <td class="text-center text-secondary">${row.Avg_Pos !== null ? row.Avg_Pos.toFixed(2) : '-'}</td>
+            </tr>
+          `;
+        }).join('');
+      }
     }
 
-    // Run on load
-    init();
+    // Initial Load
+    loadData();
   </script>
 </body>
 </html>
