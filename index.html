@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts: Cinzel, Rajdhani, Inter, Baloo 2 (logo wordmark) -->
+  <!-- Google Fonts: Cinzel, Rajdhani, Inter, Baloo 2 -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -35,7 +35,7 @@
     .hero-header {
       position: relative;
       overflow: hidden;
-      background: #150508; /* fallback while the video loads */
+      background: #150508;
       min-height: 62vh;
       display: flex;
       flex-direction: column;
@@ -44,27 +44,24 @@
       text-align: center;
       border-bottom: 2px solid rgba(220, 38, 38, 0.3);
     }
-    /* Background video wrapper — uses the "cover" scaling hack so a
-       16:9 iframe always fills the container regardless of its ratio */
     .hero-video-wrap {
       position: absolute;
       inset: 0;
       z-index: 0;
       overflow: hidden;
-      pointer-events: none; /* clicks pass through to content above */
+      pointer-events: none;
     }
     .hero-video-wrap iframe {
       position: absolute;
       top: 50%;
       left: 50%;
       width: 100vw;
-      height: 56.25vw;      /* 16:9 */
+      height: 56.25vw;
       min-height: 100%;
-      min-width: 177.78vh;  /* 16:9 */
+      min-width: 177.78vh;
       transform: translate(-50%, -50%);
       border: 0;
     }
-    /* Dark layering so the video reads as "dimmed", matching the reference art */
     .hero-overlay {
       position: absolute;
       inset: 0;
@@ -79,7 +76,7 @@
 
     .hero-header .container { position: relative; z-index: 2; }
 
-    /* Logo lockup (text-based recreation of the 只野賞 / Tadono Sho / Revival mark) */
+    /* Logo lockup */
     .brand-title {
       font-family: 'Cinzel', serif;
       letter-spacing: 3px;
@@ -155,14 +152,24 @@
       color: var(--accent-gold);
     }
 
+    /* Main Container Spacing */
+    main.container {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 70px !important;
+    }
+
     /* Section Red Frame Containers */
     .red-frame-box {
       background: var(--card-bg-inner);
       border: 3px solid var(--card-red-border);
       border-radius: 22px;
-      padding: 24px;
+      padding: 28px 24px 24px;
       position: relative;
       box-shadow: 0 0 30px rgba(185, 28, 28, 0.25);
+      height: auto; /* Fixed: Prevents height calculation errors */
+    }
+    .standings-frame {
       height: 100%;
     }
     .red-frame-badge {
@@ -186,7 +193,7 @@
       color: #b91c1c;
     }
 
-    /* Media Grid (6 Thumbnails) */
+    /* Media Grid */
     .media-card {
       position: relative;
       border-radius: 12px;
@@ -255,7 +262,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
       z-index: 2;
     }
-
     .badge-races { border-color: rgba(239, 68, 68, 0.6); color: #fca5a5; }
     .badge-show  { border-color: rgba(168, 85, 247, 0.6); color: #d8b4fe; }
     .badge-guide { border-color: rgba(0, 229, 255, 0.6); color: #67e8f9; }
@@ -310,16 +316,16 @@
       line-height: 1.3;
     }
 
-    /* Standings Box (Top JP & Top EN) */
+    /* Standings Box */
     .standings-avatar-wrapper {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 4px solid var(--accent-gold);
+      border: 4px solid var(--card-red-border);
       padding: 4px;
       margin: 0 auto 8px;
-      background: radial-gradient(circle, #4a2a06, #1a0a02);
-      box-shadow: 0 0 20px rgba(245, 197, 24, 0.45);
+      background: radial-gradient(circle, #b91c1c, #450a0a);
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
     }
     .standings-avatar {
       width: 100%;
@@ -341,19 +347,18 @@
       font-size: 1.1rem;
       letter-spacing: 0.5px;
     }
-    /* Points are kept in the DOM (for anyone extending the feed) but hidden
-       to match the reference design, which only surfaces the trainer name. */
     .standings-points { display: none; }
 
     /* About Section */
     .about-section {
       position: relative;
       background:
-        linear-gradient(90deg, rgba(10,3,5,0.92) 0%, rgba(10,3,5,0.55) 42%, rgba(10,3,5,0.18) 68%, rgba(10,3,5,0.55) 100%),
-        url('https://placehold.co/1920x600/1a0508/5c1414?text=About+Banner+%E2%80%94+Replace+With+Artwork') center/cover no-repeat;
+        linear-gradient(90deg, rgba(10,3,5,0.95) 0%, rgba(10,3,5,0.7) 45%, rgba(10,3,5,0.4) 70%, rgba(10,3,5,0.7) 100%),
+        url('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1600') center/cover no-repeat;
       border-top: 3px solid #b91c1c;
       border-bottom: 3px solid #b91c1c;
-      padding: 55px 0 65px;
+      padding: 65px 0 75px;
+      clear: both;
     }
     .about-heading {
       font-family: 'Rajdhani', sans-serif;
@@ -369,7 +374,7 @@
       line-height: 1.8;
       color: #fce7f3;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-      max-width: 46ch;
+      max-width: 50ch;
     }
 
     /* Joining The Race */
@@ -416,7 +421,7 @@
   <!-- Top Hero Header -->
   <header class="hero-header">
 
-    <!-- Dimmed, looping, muted background video (no audio, no controls) -->
+    <!-- Dimmed, looping, muted background video -->
     <div class="hero-video-wrap" aria-hidden="true">
       <iframe
         src="https://www.youtube.com/embed/ixiP37v9K_E?autoplay=1&mute=1&loop=1&playlist=ixiP37v9K_E&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
@@ -465,10 +470,10 @@
     <div class="row g-4 align-items-stretch">
 
       <!-- Left Column: Media (6 thumbnails) & News (2-3 items) -->
-      <div class="col-lg-8">
+      <div class="col-lg-8 d-flex flex-column gap-4">
 
         <!-- Media Section (6 Grid) -->
-        <div class="red-frame-box mb-5" data-aos="fade-up">
+        <div class="red-frame-box" data-aos="fade-up">
           <a href="media.html" class="red-frame-badge">Media</a>
 
           <div class="row g-3 pt-2" id="mediaGrid">
@@ -495,7 +500,7 @@
 
       <!-- Right Column: Standings Box (Top JP & Top EN) -->
       <div class="col-lg-4">
-        <div class="red-frame-box text-center d-flex flex-column justify-content-around py-4" data-aos="fade-left">
+        <div class="red-frame-box standings-frame text-center d-flex flex-column justify-content-around py-4" data-aos="fade-left">
           <a href="standings.html" class="red-frame-badge">Standings</a>
 
           <!-- TOP JP -->
@@ -507,6 +512,8 @@
             <div class="standings-name" id="topJpName">Trainer Name</div>
             <div class="small text-muted standings-points" id="topJpPoints">-- pts</div>
           </div>
+
+          <hr style="border-color: rgba(220, 38, 38, 0.4); margin: 15px 30px;">
 
           <!-- TOP EN -->
           <div class="py-3">
@@ -601,20 +608,14 @@
   <script>
     AOS.init({ duration: 500, once: true });
 
-    // ========================================================
     // Live Google Sheets Data Sources
-    // ========================================================
-    // Master Standings
     const STANDINGS_JP_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv";
     const STANDINGS_EN_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1135525613&single=true&output=csv";
-
-    // Media & News Tabs
     const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
     const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
     // 1. Fetch & Render Top Leaders in Standings Box
     function loadTopLeaders() {
-      // Top JP Leader
       Papa.parse(STANDINGS_JP_URL, {
         download: true,
         header: true,
@@ -636,7 +637,6 @@
         }
       });
 
-      // Top EN Leader
       Papa.parse(STANDINGS_EN_URL, {
         download: true,
         header: true,
@@ -663,7 +663,6 @@
     function loadMedia() {
       const grid = document.getElementById('mediaGrid');
 
-      // Helper for category badge styling
       function getCategoryBadge(cat) {
         if (!cat || cat.trim() === '') return '';
         const c = cat.toLowerCase();
@@ -725,7 +724,7 @@
           if (items.length === 0) {
             list.innerHTML = `
               <a href="news.html" class="news-card">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb" alt="Thumbnail">
                 <div>
                   <div class="news-title">PHANTOM SPRINT REVIVAL ANNOUNCED</div>
                   <div class="news-meta">By ewidaria &bull; Oct 2026</div>
@@ -733,7 +732,7 @@
                 </div>
               </a>
               <a href="news.html" class="news-card">
-                <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb">
+                <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb" alt="Thumbnail">
                 <div>
                   <div class="news-title">HOW TO TUNE SPRINT ACCELERATION</div>
                   <div class="news-meta">By Takubenly &bull; Oct 2026</div>
@@ -766,7 +765,6 @@
       });
     }
 
-    // Run feeds
     loadTopLeaders();
     loadMedia();
     loadNews();
