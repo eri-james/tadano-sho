@@ -77,7 +77,7 @@
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* Category Filter Pills (Matches Standings/Index Style) */
+    /* Category Filter Pills */
     .filter-pill {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(220, 38, 38, 0.35);
@@ -217,6 +217,43 @@
       box-shadow: 0 0 30px rgba(185, 28, 28, 0.25);
     }
 
+    /* Custom Pagination Styling */
+    .pagination-custom {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .page-btn:hover {
+      background: rgba(220, 38, 38, 0.2);
+      border-color: var(--neon-red);
+      color: #fff;
+    }
+    .page-btn.active {
+      background: #dc2626;
+      border-color: var(--neon-red);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 26, 42, 0.5);
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
     /* Motion */
     .fade-content {
       animation: fadeIn 0.4s ease-out forwards;
@@ -283,6 +320,12 @@
       <div class="row g-4 fade-content" id="mediaGallery">
         <!-- Rendered dynamically -->
       </div>
+
+      <!-- Pagination Navigation -->
+      <div class="pagination-custom d-none" id="paginationControls">
+        <!-- Rendered dynamically -->
+      </div>
+
     </div>
   </div>
 
@@ -305,6 +348,8 @@
 
     let allMediaData = [];
     let currentCategory = 'ALL';
+    let currentPage = 1;
+    const ITEMS_PER_PAGE = 9; // 9 cards per page (3x3 grid)
 
     // Helper: Extract YouTube Thumbnail if none provided
     function getYoutubeThumbnail(url, fallbackThumb) {
@@ -344,13 +389,17 @@
 
           allMediaData = (res.data || [])
             .filter(item => item.Title && String(item.Title).trim() !== "")
-            .map(item => ({
+            .map((item, index) => ({
               Title: String(item.Title).trim(),
               Category: String(item.Category || 'Media').trim(),
               YouTube_URL: String(item.YouTube_URL || '').trim(),
               Thumbnail_URL: item.Thumbnail_URL ? String(item.Thumbnail_URL).trim() : '',
-              Date: item.Date ? String(item.Date).trim() : ''
-            }));
+              Date: item.Date ? String(item.Date).trim() : '',
+              // Convert date string to timestamp for reliable sorting (fallback to sheet index)
+              timestamp: item.Date ? new Date(item.Date).getTime() : index
+            }))
+            // SORT BY DATE: Newest first (Descending)
+            .sort((a, b) => b.timestamp - a.timestamp);
 
           renderGallery();
         },
@@ -369,6 +418,7 @@
     // Filter Category
     function filterCategory(category) {
       currentCategory = category;
+      currentPage = 1; // Reset to page 1 on filter change
 
       // Update button active states
       document.querySelectorAll('#categoryFilters .filter-pill').forEach(btn => {
@@ -382,10 +432,20 @@
       renderGallery();
     }
 
-    // Render Cards
+    // Change Page
+    function goToPage(page) {
+      currentPage = page;
+      renderGallery();
+      // Smooth scroll back to top of gallery
+      document.getElementById('categoryFilters').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Render Cards & Pagination Controls
     function renderGallery() {
       const gallery = document.getElementById('mediaGallery');
+      const pagination = document.getElementById('paginationControls');
 
+      // 1. Filter by category
       const filtered = allMediaData.filter(item => {
         if (currentCategory === 'ALL') return true;
         return item.Category.toLowerCase() === currentCategory.toLowerCase();
@@ -397,10 +457,17 @@
             <i class="bi bi-film fs-2 d-block mb-2"></i>
             No media found under "${currentCategory}".
           </div>`;
+        pagination.classList.add('d-none');
         return;
       }
 
-      gallery.innerHTML = filtered.map(m => {
+      // 2. Slice for current page
+      const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+      // Render Cards
+      gallery.innerHTML = pageItems.map(m => {
         const thumb = getYoutubeThumbnail(m.YouTube_URL, m.Thumbnail_URL);
         const link = m.YouTube_URL || '#';
         const badgeClass = getCategoryBadgeClass(m.Category);
@@ -423,6 +490,34 @@
           </div>
         `;
       }).join('');
+
+      // 3. Render Pagination Bar
+      if (totalPages > 1) {
+        pagination.classList.remove('d-none');
+        let paginationHTML = `
+          <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+            <i class="bi bi-chevron-left"></i> Prev
+          </button>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+          paginationHTML += `
+            <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+              ${i}
+            </button>
+          `;
+        }
+
+        paginationHTML += `
+          <button class="page-btn ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+            Next <i class="bi bi-chevron-right"></i>
+          </button>
+        `;
+
+        pagination.innerHTML = paginationHTML;
+      } else {
+        pagination.classList.add('d-none');
+      }
     }
 
     // Initial Load
