@@ -16,40 +16,59 @@
 
   <style>
     :root {
-      --bg-dark: #0a0c14;
-      --card-bg: #121522;
+      --bg-dark: #09030a;
+      --card-bg: rgba(22, 10, 28, 0.82);
+      --accent-red: #e6194b;
+      --accent-crimson: #9e0b2e;
+      --accent-purple: #7b1fa2;
+      --accent-glow-red: rgba(230, 25, 75, 0.28);
       --accent-gold: #f5c518;
-      --accent-gold-glow: rgba(245, 197, 24, 0.25);
-      --accent-orange: #ff7700;
-      --accent-purple: #9d4edd;
-      --accent-cyan: #00e5ff;
-      --text-muted: #8e9bb0;
+      --text-muted: #a792ab;
     }
 
     body {
       background-color: var(--bg-dark);
-      color: #e9ecef;
+      color: #f1e9f3;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(30, 20, 50, 0.85), transparent 70%),
-        radial-gradient(circle at 10% 20%, rgba(255, 119, 0, 0.08), transparent 40%),
-        radial-gradient(circle at 90% 20%, rgba(157, 78, 221, 0.08), transparent 40%);
+        radial-gradient(circle at 50% 0%, rgba(90, 10, 50, 0.7), transparent 75%),
+        radial-gradient(circle at 15% 25%, rgba(158, 11, 46, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(123, 31, 162, 0.18), transparent 50%);
       background-attachment: fixed;
+    }
+
+    /* Minimal Speed Particles Canvas */
+    #speedCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
     }
 
     .brand-title {
       font-family: 'Cinzel', serif;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, #ffffff 15%, var(--accent-orange) 60%, var(--accent-purple) 100%);
+      letter-spacing: 2.5px;
+      background: linear-gradient(135deg, #ffffff 10%, #ff4d6d 55%, #c77dff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(230, 25, 75, 0.4);
     }
 
     .sub-brand {
       font-size: 0.85rem;
       letter-spacing: 4px;
-      color: var(--accent-orange);
+      color: #ff4d6d;
       text-transform: uppercase;
       font-weight: 700;
     }
@@ -64,21 +83,22 @@
       align-items: center;
       gap: 6px;
       padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 77, 109, 0.2);
       border-radius: 20px;
+      backdrop-filter: blur(6px);
     }
     .nav-back-btn:hover {
       color: #fff;
-      border-color: var(--accent-gold);
-      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-red);
+      background: rgba(230, 25, 75, 0.15);
       transform: translateX(-2px);
     }
 
     /* Server Toggle Buttons */
     .server-pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 77, 109, 0.25);
       color: #cbd5e1;
       border-radius: 30px;
       padding: 8px 22px;
@@ -86,47 +106,50 @@
       font-size: 0.9rem;
       letter-spacing: 0.5px;
       transition: all 0.25s ease;
+      backdrop-filter: blur(4px);
     }
     .server-pill:hover {
       color: #fff;
-      border-color: rgba(255, 255, 255, 0.35);
+      border-color: #ff4d6d;
     }
     .server-pill.active {
-      background: linear-gradient(135deg, #ea580c, #c2410c);
-      border-color: var(--accent-orange);
+      background: linear-gradient(135deg, #b91c1c, #831843);
+      border-color: #ff4d6d;
       color: #fff;
-      box-shadow: 0 0 15px rgba(234, 88, 12, 0.35);
+      box-shadow: 0 0 16px rgba(230, 25, 75, 0.45);
     }
 
     /* Division Switcher Buttons */
     .division-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #aaa;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(157, 78, 221, 0.25);
+      color: #cbd5e1;
       border-radius: 30px;
       padding: 10px 24px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
     }
     .division-pill:hover {
       color: #fff;
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(199, 125, 255, 0.45);
     }
     .division-pill.active {
-      background: linear-gradient(135deg, #231b38, #322550);
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
-      box-shadow: 0 0 20px var(--accent-gold-glow);
+      background: linear-gradient(135deg, #581c87, #831843);
+      border-color: #f43f5e;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
     }
 
     /* Podium Cards */
     .podium-card {
       background: var(--card-bg);
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(8px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .podium-card:hover {
@@ -134,14 +157,15 @@
     }
 
     .podium-1 {
-      border-color: rgba(245, 197, 24, 0.6);
-      box-shadow: 0 0 30px rgba(245, 197, 24, 0.15);
+      border-color: rgba(230, 25, 75, 0.75);
+      box-shadow: 0 0 35px rgba(230, 25, 75, 0.25);
+      background: linear-gradient(180deg, rgba(45, 12, 35, 0.92) 0%, rgba(20, 8, 25, 0.95) 100%);
     }
     .podium-2 {
-      border-color: rgba(200, 210, 225, 0.3);
+      border-color: rgba(199, 125, 255, 0.35);
     }
     .podium-3 {
-      border-color: rgba(205, 127, 50, 0.3);
+      border-color: rgba(158, 11, 46, 0.35);
     }
 
     .podium-avatar {
@@ -149,12 +173,12 @@
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
-      background-color: #1a2234;
+      background-color: #1f0b24;
       border: 3px solid rgba(255, 255, 255, 0.2);
     }
-    .podium-1 .podium-avatar { border-color: var(--accent-gold); width: 90px; height: 90px; }
+    .podium-1 .podium-avatar { border-color: #ff4d6d; width: 92px; height: 92px; }
     .podium-2 .podium-avatar { border-color: #cbd5e1; }
-    .podium-3 .podium-avatar { border-color: #cd7f32; }
+    .podium-3 .podium-avatar { border-color: #c084fc; }
 
     .podium-badge {
       font-size: 0.75rem;
@@ -175,23 +199,24 @@
     .custom-table {
       background: var(--card-bg);
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 77, 109, 0.14);
       overflow: hidden;
+      backdrop-filter: blur(8px);
     }
     .custom-table table {
       margin-bottom: 0;
     }
     .custom-table th {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(40, 10, 35, 0.6);
       color: var(--text-muted);
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 1px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 77, 109, 0.18);
       padding: 14px;
     }
     .custom-table td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       padding: 14px;
       vertical-align: middle;
     }
@@ -204,11 +229,11 @@
       justify-content: center;
       font-weight: 700;
       font-family: 'Rajdhani', sans-serif;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
     }
-    .rank-1 { background: var(--accent-gold); color: #000; }
+    .rank-1 { background: #ff4d6d; color: #fff; box-shadow: 0 0 10px rgba(255, 77, 109, 0.6); }
     .rank-2 { background: #cbd5e1; color: #000; }
-    .rank-3 { background: #cd7f32; color: #fff; }
+    .rank-3 { background: #c084fc; color: #000; }
 
     .week-chip {
       display: inline-block;
@@ -220,11 +245,11 @@
       background: rgba(255, 255, 255, 0.04);
       color: #cbd5e1;
     }
-    .week-chip.gold { background: rgba(245, 197, 24, 0.15); color: var(--accent-gold); }
+    .week-chip.gold { background: rgba(255, 77, 109, 0.25); color: #ff758f; border: 1px solid rgba(255, 77, 109, 0.4); }
     .week-chip.silver { background: rgba(203, 213, 225, 0.15); color: #cbd5e1; }
-    .week-chip.bronze { background: rgba(205, 127, 50, 0.15); color: #cd7f32; }
+    .week-chip.bronze { background: rgba(192, 132, 252, 0.15); color: #d8b4fe; }
 
-    /* Transitions */
+    /* Motion */
     .fade-content {
       animation: fadeIn 0.4s ease-out forwards;
     }
@@ -236,81 +261,86 @@
 </head>
 <body>
 
-  <!-- Top Navigation Link -->
-  <div class="container pt-4">
-    <a href="index.html" class="nav-back-btn">
-      <i class="bi bi-arrow-left"></i> All-Time Standings
-    </a>
-  </div>
+  <!-- Minimal Speed Streaks & Embers Canvas -->
+  <canvas id="speedCanvas"></canvas>
 
-  <!-- Hero Header -->
-  <div class="container py-4 text-center" data-aos="fade-down">
-    <div class="sub-brand mb-1">🎃 October Sprint Classic</div>
-    <h1 class="brand-title display-4 fw-bolder mb-2">PHANTOM SPRINT</h1>
-    <p class="text-secondary small mb-4">Chukyo 1200m (W1-2) &bull; Nakayama 1200m (W3-4 Classic)</p>
-
-    <!-- Server Toggle (JP vs EN) -->
-    <div class="d-flex justify-content-center gap-2 mb-3">
-      <button class="btn server-pill active" id="btnServerJP" onclick="switchServer('JP')">
-        🇯🇵 JP Server
-      </button>
-      <button class="btn server-pill" id="btnServerEN" onclick="switchServer('EN')">
-        🌐 EN Global
-      </button>
+  <div class="content-wrapper">
+    <!-- Top Navigation Link -->
+    <div class="container pt-4">
+      <a href="index.html" class="nav-back-btn">
+        <i class="bi bi-arrow-left"></i> All-Time Standings
+      </a>
     </div>
 
-    <!-- Division Switcher Buttons -->
-    <div class="d-flex justify-content-center gap-2 mt-2 flex-wrap">
-      <button class="btn division-pill active" id="btnGraded" onclick="switchDivision('Graded')">
-        <i class="bi bi-trophy-fill me-2 text-warning"></i>Graded Division
-      </button>
-      <button class="btn division-pill" id="btnOpen" onclick="switchDivision('Open')">
-        <i class="bi bi-shield-check me-2 text-info"></i><span id="openDivisionLabel">Open Division (UC Capped)</span>
-      </button>
-    </div>
-  </div>
+    <!-- Hero Header -->
+    <div class="container py-4 text-center" data-aos="fade-down">
+      <div class="sub-brand mb-1">🎃 October Sprint Classic</div>
+      <h1 class="brand-title display-4 fw-bolder mb-2">PHANTOM SPRINT</h1>
+      <p class="text-secondary small mb-4">Chukyo 1200m (W1-2) &bull; Nakayama 1200m (W3-4 Classic)</p>
 
-  <!-- Main Content Container -->
-  <div class="container pb-5">
+      <!-- Server Toggle (JP vs EN) -->
+      <div class="d-flex justify-content-center gap-2 mb-3">
+        <button class="btn server-pill active" id="btnServerJP" onclick="switchServer('JP')">
+          🇯🇵 JP Server
+        </button>
+        <button class="btn server-pill" id="btnServerEN" onclick="switchServer('EN')">
+          🌐 EN Global
+        </button>
+      </div>
 
-    <!-- Loading Spinner -->
-    <div id="loadingIndicator" class="text-center py-5 d-none">
-      <div class="spinner-border text-warning mb-2" role="status"></div>
-      <div class="text-muted small">Loading Phantom Sprint results...</div>
-    </div>
-
-    <!-- Top 3 Podium -->
-    <div class="row g-4 justify-content-center mb-5 align-items-end" id="podiumContainer" data-aos="fade-up">
-      <!-- Generated Dynamically -->
-    </div>
-
-    <!-- Weekly Breakdown Table -->
-    <div class="custom-table" data-aos="fade-up" data-aos-delay="100">
-      <div class="table-responsive">
-        <table class="table table-dark table-hover align-middle">
-          <thead>
-            <tr>
-              <th class="text-center" style="width: 70px;">Rank</th>
-              <th>Trainer</th>
-              <th class="text-center">W1</th>
-              <th class="text-center">W2</th>
-              <th class="text-center">W3</th>
-              <th class="text-center text-warning">W4 (2x)</th>
-              <th class="text-center text-warning fw-bold">Total Pts</th>
-              <th class="text-center">Wins</th>
-              <th class="text-center">Podiums</th>
-              <th class="text-center">Avg Pos</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- Generated Dynamically -->
-          </tbody>
-        </table>
+      <!-- Division Switcher Buttons -->
+      <div class="d-flex justify-content-center gap-2 mt-2 flex-wrap">
+        <button class="btn division-pill active" id="btnGraded" onclick="switchDivision('Graded')">
+          <i class="bi bi-lightning-charge-fill me-2 text-danger"></i>Graded Division
+        </button>
+        <button class="btn division-pill" id="btnOpen" onclick="switchDivision('Open')">
+          <i class="bi bi-shield-check me-2 text-info"></i><span id="openDivisionLabel">Open Division (UC Capped)</span>
+        </button>
       </div>
     </div>
-    
-    <div class="text-center text-muted small mt-4">
-      Week 4 awards 2x Points &bull; Auto-synced from Google Sheets
+
+    <!-- Main Content Container -->
+    <div class="container pb-5">
+
+      <!-- Loading Spinner -->
+      <div id="loadingIndicator" class="text-center py-5 d-none">
+        <div class="spinner-border text-danger mb-2" role="status"></div>
+        <div class="text-muted small">Loading Phantom Sprint results...</div>
+      </div>
+
+      <!-- Top 3 Podium -->
+      <div class="row g-4 justify-content-center mb-5 align-items-end" id="podiumContainer" data-aos="fade-up">
+        <!-- Generated Dynamically -->
+      </div>
+
+      <!-- Weekly Breakdown Table -->
+      <div class="custom-table" data-aos="fade-up" data-aos-delay="100">
+        <div class="table-responsive">
+          <table class="table table-dark table-hover align-middle">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 70px;">Rank</th>
+                <th>Trainer</th>
+                <th class="text-center">W1</th>
+                <th class="text-center">W2</th>
+                <th class="text-center">W3</th>
+                <th class="text-center text-danger">W4 (2x)</th>
+                <th class="text-center text-danger fw-bold">Total Pts</th>
+                <th class="text-center">Wins</th>
+                <th class="text-center">Podiums</th>
+                <th class="text-center">Avg Pos</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Generated Dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="text-center text-muted small mt-4">
+        Week 4 awards 2x Points &bull; Auto-synced from Google Sheets
+      </div>
     </div>
   </div>
 
@@ -321,7 +351,74 @@
   <script>
     AOS.init({ duration: 500, once: true });
 
-    // Live Published CSV URLs for Phantom Sprint Tabs
+    // ==========================================
+    // Minimal Background Speed Particles Engine
+    // ==========================================
+    (function initSpeedParticles() {
+      const canvas = document.getElementById('speedCanvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+      const particleCount = 45; // lightweight count for smooth 60fps
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class SpeedStreak {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.length = Math.random() * 60 + 20; // horizontal streak length
+          this.speed = Math.random() * 3 + 1.2;
+          this.opacity = Math.random() * 0.35 + 0.1;
+          this.color = Math.random() > 0.4 ? '230, 25, 75' : '157, 78, 221'; // Crimson or Violet
+          this.width = Math.random() * 1.5 + 0.5;
+        }
+        update() {
+          this.x += this.speed * 1.5;
+          if (this.x - this.length > width) {
+            this.x = -this.length;
+            this.y = Math.random() * height;
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          const gradient = ctx.createLinearGradient(this.x - this.length, this.y, this.x, this.y);
+          gradient.addColorStop(0, `rgba(${this.color}, 0)`);
+          gradient.addColorStop(1, `rgba(${this.color}, ${this.opacity})`);
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = this.width;
+          ctx.moveTo(this.x - this.length, this.y);
+          ctx.lineTo(this.x, this.y);
+          ctx.stroke();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new SpeedStreak());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let p of particles) {
+          p.update();
+          p.draw();
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    // ==========================================
+    // Live Google Sheets Integration
+    // ==========================================
     const SHEET_URLS = {
       JP: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1767697908&single=true&output=csv",
       EN: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1620695949&single=true&output=csv"
@@ -409,7 +506,7 @@
       const container = document.getElementById('podiumContainer');
       const tableBody = document.getElementById('tableBody');
 
-      // Competitive multi-tier sort: Points -> Wins -> Podiums -> Avg_Pos
+      // Sort by Points -> Wins -> Podiums -> Avg_Pos
       const filtered = currentEventData
         .filter(r => r.Division.toLowerCase() === currentDivision.toLowerCase())
         .sort((a, b) => {
@@ -454,12 +551,12 @@
           ${top1 ? `
           <div class="col-md-4 col-sm-6 order-1 order-md-2">
             <div class="podium-card podium-1 p-4 pb-5 text-center">
-              <span class="podium-badge bg-warning mb-3 d-inline-block text-dark"><i class="bi bi-trophy-fill me-1"></i> Sprint Leader</span>
+              <span class="podium-badge bg-danger mb-3 d-inline-block text-white shadow"><i class="bi bi-fire me-1"></i> Sprint Leader</span>
               <img src="${top1.Avatar || getFallbackAvatar(top1.Trainer)}" 
                    onerror="this.onerror=null; this.src='${getFallbackAvatar(top1.Trainer)}';" 
                    class="podium-avatar mb-3 d-block mx-auto shadow-lg">
-              <h4 class="fw-bold mb-1 text-warning">${top1.Trainer}</h4>
-              <div class="score-num text-warning my-2">${top1.Points} <small class="fs-6 text-warning-emphasis">pts</small></div>
+              <h4 class="fw-bold mb-1" style="color: #ff758f;">${top1.Trainer}</h4>
+              <div class="score-num text-danger my-2">${top1.Points} <small class="fs-6 text-danger-emphasis">pts</small></div>
               <div class="text-secondary small">${top1.Wins} wins &bull; ${top1.Podiums} podiums</div>
             </div>
           </div>` : ''}
@@ -500,15 +597,15 @@
                 <div class="d-flex align-items-center gap-3">
                   <img src="${row.Avatar || getFallbackAvatar(row.Trainer)}" 
                        onerror="this.onerror=null; this.src='${getFallbackAvatar(row.Trainer)}';" 
-                       width="34" height="34" class="rounded-circle" style="object-fit: cover; background: #1a2234;">
+                       width="34" height="34" class="rounded-circle" style="object-fit: cover; background: #1f0b24;">
                   <span class="fw-bold">${row.Trainer}</span>
                 </div>
               </td>
               <td class="text-center"><span class="week-chip ${getChipClass(row.W1)}">${row.W1 || '-'}</span></td>
               <td class="text-center"><span class="week-chip ${getChipClass(row.W2)}">${row.W2 || '-'}</span></td>
               <td class="text-center"><span class="week-chip ${getChipClass(row.W3)}">${row.W3 || '-'}</span></td>
-              <td class="text-center"><span class="week-chip ${getChipClass(row.W4)} text-warning fw-bold">${row.W4 ? (row.W4 * 2) : '-'}</span></td>
-              <td class="text-center fw-bold text-warning fs-5">${row.Points}</td>
+              <td class="text-center"><span class="week-chip ${getChipClass(row.W4)} text-danger fw-bold">${row.W4 ? (row.W4 * 2) : '-'}</span></td>
+              <td class="text-center fw-bold text-danger fs-5">${row.Points}</td>
               <td class="text-center text-secondary">${row.Wins}</td>
               <td class="text-center text-secondary">${row.Podiums}</td>
               <td class="text-center text-secondary">${row.Avg_Pos !== null ? row.Avg_Pos.toFixed(2) : '-'}</td>
