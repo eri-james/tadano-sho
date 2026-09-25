@@ -10,16 +10,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts: Cinzel, Rajdhani, Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Cinzel (Prestige/Logo), Rajdhani (Sports/Titles), Inter (UI) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #0a0305;
-      --card-red-border: #dc2626;
-      --card-bg-inner: rgba(18, 5, 8, 0.95);
+      --bg-dark: #070002;
+      --neon-red: #ff1a2a;
+      --card-bg: rgba(14, 2, 5, 0.95);
       --accent-gold: #f5c518;
-      --text-muted: #b89ca4;
+      --text-muted: #a38c92;
     }
 
     body {
@@ -27,33 +27,88 @@
       color: #fce7f3;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
 
-    /* Hero Section */
-    .hero-header {
+    /* ----------------------------------------------------
+       HERO BANNER: YouTube Loop with Dimmed Gradient
+    ---------------------------------------------------- */
+    .hero-banner {
       position: relative;
-      background: radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.45), transparent 75%), #150508;
-      padding: 60px 20px 40px;
-      text-align: center;
-      border-bottom: 2px solid rgba(220, 38, 38, 0.3);
-    }
-    .brand-title {
-      font-family: 'Cinzel', serif;
-      letter-spacing: 3px;
-      color: #fff;
+      width: 100%;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 40px;
+      overflow: hidden;
+      background-color: #000;
     }
 
-    /* Top Nav Pill */
+    /* Scales YouTube iframe to cover container (16:9 ratio) */
+    .video-background-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .video-background-wrapper iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 ratio */
+      min-height: 100vh;
+      min-width: 177.77vh; /* 16:9 ratio */
+      transform: translate(-50%, -50%);
+      filter: brightness(0.42) saturate(1.25);
+      border: none;
+    }
+
+    /* Multi-layered dark overlay to blend video into the dark page */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: 
+        radial-gradient(circle at 50% 25%, rgba(255, 0, 40, 0.25), transparent 70%),
+        linear-gradient(180deg, rgba(7, 0, 2, 0.2) 0%, rgba(7, 0, 2, 0.65) 60%, #070002 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+
+    .hero-logo-img {
+      max-width: 330px;
+      width: 85%;
+      height: auto;
+      filter: drop-shadow(0 0 35px rgba(255, 26, 42, 0.65)) drop-shadow(0 0 15px rgba(245, 197, 24, 0.4));
+      margin-bottom: 25px;
+    }
+
+    /* Top Navigation Pill */
     .nav-pill-container {
-      background: rgba(185, 28, 28, 0.7);
-      border: 2px solid #ef4444;
-      border-radius: 40px;
-      padding: 6px 14px;
+      background: rgba(180, 5, 20, 0.88);
+      border: 2px solid #ff2a3b;
+      border-radius: 50px;
+      padding: 6px 18px;
       display: inline-flex;
-      gap: 16px;
-      box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
-      margin-top: 25px;
-      backdrop-filter: blur(8px);
+      gap: 18px;
+      box-shadow: 0 0 30px rgba(255, 30, 50, 0.65);
+      backdrop-filter: blur(10px);
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -61,44 +116,50 @@
       color: #fff;
       text-decoration: none;
       font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 1.5px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
       padding: 6px 14px;
       border-radius: 20px;
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .nav-pill-link:hover {
       background: rgba(255, 255, 255, 0.2);
       color: var(--accent-gold);
     }
 
-    /* Section Red Frame Containers */
+    /* ----------------------------------------------------
+       PIXSO RED FRAME CONTAINERS
+    ---------------------------------------------------- */
     .red-frame-box {
-      background: var(--card-bg-inner);
-      border: 3px solid var(--card-red-border);
-      border-radius: 22px;
+      background: var(--card-bg);
+      border: 3px solid var(--neon-red);
+      border-radius: 24px;
       padding: 24px;
       position: relative;
-      box-shadow: 0 0 30px rgba(185, 28, 28, 0.25);
+      box-shadow: 0 0 25px rgba(255, 26, 42, 0.35);
       height: 100%;
     }
+
     .red-frame-badge {
       position: absolute;
       top: -16px;
-      left: 24px;
+      left: 28px;
       background: #dc2626;
-      border: 2px solid #ef4444;
+      border: 2px solid #ff3b4b;
       color: #fff;
       font-family: 'Rajdhani', sans-serif;
       font-weight: 800;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      padding: 4px 20px;
-      border-radius: 20px;
+      padding: 4px 22px;
+      border-radius: 25px;
       font-size: 0.95rem;
-      box-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
+      box-shadow: 0 0 18px rgba(255, 26, 42, 0.7);
       text-decoration: none;
     }
     .red-frame-badge:hover {
@@ -120,7 +181,7 @@
     .media-card:hover {
       transform: scale(1.03);
       border-color: var(--accent-gold);
-      box-shadow: 0 0 15px rgba(245, 197, 24, 0.35);
+      box-shadow: 0 0 18px rgba(245, 197, 24, 0.4);
     }
     .media-card img {
       width: 100%;
@@ -132,62 +193,34 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2rem;
-      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.8rem;
+      color: rgba(255, 255, 255, 0.9);
       transition: all 0.2s ease;
     }
     .media-card:hover .media-play-icon {
       color: var(--accent-gold);
       transform: translate(-50%, -50%) scale(1.15);
     }
-    .media-title-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
-      padding: 6px 10px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Media Category Corner Badge */
     .media-category-badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      background: rgba(10, 3, 5, 0.85);
-      border: 1px solid rgba(245, 197, 24, 0.5); /* Subtle gold border */
+      top: 6px;
+      left: 6px;
+      background: rgba(7, 0, 2, 0.88);
+      border: 1px solid rgba(245, 197, 24, 0.6);
       color: var(--accent-gold);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 6px;
+      padding: 1px 7px;
+      border-radius: 5px;
       backdrop-filter: blur(4px);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
       z-index: 2;
     }
-
-    /* Optional color accents per category */
-    .badge-races {
-      border-color: rgba(239, 68, 68, 0.6);
-      color: #fca5a5;
-    }
-    .badge-show {
-      border-color: rgba(168, 85, 247, 0.6);
-      color: #d8b4fe;
-    }
-    .badge-guide {
-      border-color: rgba(0, 229, 255, 0.6);
-      color: #67e8f9;
-    }
+    .badge-races { border-color: rgba(255, 26, 42, 0.7); color: #ff758f; }
+    .badge-show { border-color: rgba(168, 85, 247, 0.7); color: #d8b4fe; }
+    .badge-guide { border-color: rgba(0, 229, 255, 0.7); color: #67e8f9; }
 
     /* News Horizontal Cards */
     .news-card {
@@ -203,26 +236,27 @@
       transition: all 0.2s ease;
     }
     .news-card:hover {
-      background: rgba(220, 38, 38, 0.12);
-      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(255, 26, 42, 0.5);
       transform: translateX(4px);
       color: inherit;
     }
     .news-thumb {
-      width: 110px;
-      height: 70px;
+      width: 120px;
+      height: 75px;
       border-radius: 8px;
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      background-color: #1a080d;
+      background-color: #120306;
     }
     .news-title {
       font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
+      font-weight: 800;
+      font-size: 1.1rem;
       margin-bottom: 2px;
       color: #fff;
+      letter-spacing: 0.5px;
     }
     .news-meta {
       font-size: 0.75rem;
@@ -236,19 +270,19 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
-    /* Standings Box (Top JP & Top EN) */
+    /* Standings Box */
     .standings-avatar-wrapper {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 4px solid #ef4444;
+      border: 4px solid var(--neon-red);
       padding: 4px;
       margin: 0 auto 8px;
       background: radial-gradient(circle, #b91c1c, #450a0a);
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 0 25px rgba(255, 26, 42, 0.55);
     }
     .standings-avatar {
       width: 100%;
@@ -259,29 +293,31 @@
     .standings-label {
       font-family: 'Rajdhani', sans-serif;
       font-weight: 800;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 6px;
     }
     .standings-name {
       font-weight: 700;
       color: var(--accent-gold);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
     }
 
-    /* About Section */
+    /* ----------------------------------------------------
+       ABOUT SECTION (Pixso Layout)
+    ---------------------------------------------------- */
     .about-section {
-      background: linear-gradient(180deg, #150508 0%, #20080e 100%);
+      background: linear-gradient(180deg, #0d0104 0%, #170207 100%);
       border-top: 3px solid #b91c1c;
       border-bottom: 3px solid #b91c1c;
-      padding: 60px 0;
+      padding: 70px 0;
       position: relative;
     }
     .about-heading {
       font-family: 'Rajdhani', sans-serif;
       font-weight: 900;
-      font-size: 3rem;
+      font-size: 3.2rem;
       color: #fff;
       letter-spacing: 3px;
       margin-bottom: 25px;
@@ -293,26 +329,52 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    /* Joining The Race */
+    .about-banner-container {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 26, 42, 0.45);
+      box-shadow: 0 0 30px rgba(255, 26, 42, 0.25);
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    .about-banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .about-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(13, 1, 4, 0.85) 0%, rgba(13, 1, 4, 0.3) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    /* ----------------------------------------------------
+       JOINING THE RACE (Step 1, 2, 3)
+    ---------------------------------------------------- */
     .join-step-badge {
       font-family: 'Rajdhani', sans-serif;
-      font-weight: 800;
-      letter-spacing: 2px;
-      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      font-size: 1.15rem;
       color: #fff;
       margin-bottom: 12px;
     }
     .join-icon-box {
-      font-size: 3.5rem;
+      font-size: 3.6rem;
       color: #fff;
       margin-bottom: 12px;
-      filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
+      filter: drop-shadow(0 0 14px rgba(255, 26, 42, 0.7));
     }
     .join-step-title {
       font-family: 'Rajdhani', sans-serif;
       font-weight: 800;
       letter-spacing: 1.5px;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       text-transform: uppercase;
       color: #fff;
     }
@@ -330,37 +392,55 @@
 </head>
 <body>
 
-  <!-- Top Hero Header -->
-  <header class="hero-header">
-    <div class="container" data-aos="fade-down">
-      <h1 class="brand-title display-3 fw-bolder mb-0">只野賞</h1>
-      <div style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--accent-gold); letter-spacing: 4px; font-weight: 700;">
-        TADANO SHO
-      </div>
-      <div class="badge bg-danger text-uppercase px-3 py-1 mt-1 mb-2" style="letter-spacing: 3px; font-size: 0.85rem;">
-        Revival
-      </div>
+  <!-- ====================================================
+       HERO BANNER (With Looping YouTube Video Background)
+  ==================================================== -->
+  <header class="hero-banner">
+    
+    <!-- YouTube Background Video Wrapper -->
+    <!-- Replace 'YOUTUBE_VIDEO_ID' below if she wants to swap the background video! -->
+    <div class="video-background-wrapper">
+      <iframe 
+        id="bgVideo"
+        src="https://www.youtube-nocookie.com/embed/5kQ_vK42Y4Q?autoplay=1&mute=1&loop=1&playlist=5kQ_vK42Y4Q&controls=0&showinfo=0&modestbranding=1&disablekb=1&fs=0&playsinline=1&enablejsapi=1" 
+        allow="autoplay; encrypted-media" 
+        tabindex="-1">
+      </iframe>
+    </div>
 
-      <!-- Pill Navbar -->
+    <!-- Dark Gradient Overlay (blends video seamlessly into background) -->
+    <div class="hero-overlay"></div>
+
+    <!-- Centered Logo & Navigation Bar -->
+    <div class="hero-content" data-aos="fade-down">
+      <img src="https://raw.githubusercontent.com/eri-james/tadano-sho/main/logo.png" 
+           onerror="this.onerror=null; this.src='https://dummyimage.com/600x260/000000/f5c518.png&text=%E5%8F%AA%E9%87%8E%E8%B3%9E+TADANO+SHO+REVIVAL';" 
+           alt="Tadano Sho Revival Logo" 
+           class="hero-logo-img">
+
+      <!-- Pill Navbar (Pixso Layout) -->
       <div>
         <nav class="nav-pill-container">
           <a href="#about" class="nav-pill-link">About</a>
           <a href="media.html" class="nav-pill-link">Media</a>
           <a href="standings.html" class="nav-pill-link">Standings</a>
           <a href="news.html" class="nav-pill-link">News</a>
+          <!-- Replace DISCORD_INVITE_LINK with her actual Discord server invite -->
           <a href="https://discord.gg/YOUR_INVITE_HERE" target="_blank" class="nav-pill-link text-warning">
-            <i class="bi bi-discord me-1"></i>Join
+            <i class="bi bi-discord"></i> Join
           </a>
         </nav>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Grid (Media, News, Standings) -->
+  <!-- ====================================================
+       MAIN DASHBOARD GRID (Media, News, Standings)
+  ==================================================== -->
   <main class="container my-5 pt-3">
     <div class="row g-4 align-items-stretch">
       
-      <!-- Left Column: Media (6 thumbnails) & News (2-3 items) -->
+      <!-- Left Column: Media (6 Grid) & News (2-3 list) -->
       <div class="col-lg-8">
         
         <!-- Media Section (6 Grid) -->
@@ -368,22 +448,16 @@
           <a href="media.html" class="red-frame-badge">Media</a>
           
           <div class="row g-3 pt-2" id="mediaGrid">
-            <div class="col-12 text-center py-4 text-muted">
-              <div class="spinner-border spinner-border-sm text-danger me-2"></div>
-              Loading latest media archives...
-            </div>
+            <!-- Populated dynamically via Google Sheets, or falls back to Pixso placeholders -->
           </div>
         </div>
 
-        <!-- News Section (2-3 items) -->
+        <!-- News Section (2-3 Items) -->
         <div class="red-frame-box" data-aos="fade-up" data-aos-delay="100">
           <a href="news.html" class="red-frame-badge">News</a>
           
           <div class="pt-2" id="newsList">
-            <div class="text-center py-4 text-muted">
-              <div class="spinner-border spinner-border-sm text-danger me-2"></div>
-              Loading turf dispatches...
-            </div>
+            <!-- Populated dynamically via Google Sheets, or falls back to Pixso placeholders -->
           </div>
         </div>
 
@@ -404,7 +478,7 @@
             <div class="small text-muted" id="topJpPoints">-- pts</div>
           </div>
 
-          <hr style="border-color: rgba(220, 38, 38, 0.4); margin: 15px 30px;">
+          <hr style="border-color: rgba(255, 26, 42, 0.45); margin: 15px 30px;">
 
           <!-- TOP EN -->
           <div class="py-3">
@@ -417,7 +491,7 @@
           </div>
 
           <div class="mt-3">
-            <a href="standings.html" class="btn btn-outline-warning btn-sm rounded-pill px-4">
+            <a href="standings.html" class="btn btn-outline-warning btn-sm rounded-pill px-4 fw-bold">
               View Full Standings &rarr;
             </a>
           </div>
@@ -427,11 +501,14 @@
     </div>
   </main>
 
-  <!-- About Section -->
+  <!-- ====================================================
+       ABOUT SECTION (Pixso Layout)
+  ==================================================== -->
   <section id="about" class="about-section">
     <div class="container">
       <div class="row align-items-center g-4">
         
+        <!-- Text Left -->
         <div class="col-lg-7" data-aos="fade-right">
           <h2 class="about-heading">ABOUT</h2>
           <p class="about-text mb-3">
@@ -445,11 +522,18 @@
           </p>
         </div>
 
-        <div class="col-lg-5 text-center" data-aos="fade-left">
-          <div class="p-4" style="background: rgba(0,0,0,0.4); border-radius: 20px; border: 2px solid rgba(220, 38, 38, 0.4);">
-            <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); letter-spacing: 2px;">只野賞</h3>
-            <div class="badge bg-danger text-uppercase px-3 py-1 mb-2">Revival Circuit</div>
-            <p class="small text-muted mb-0">Camaraderie &bull; Competition &bull; Celebration</p>
+        <!-- Banner Graphic Right (Pixso Style) -->
+        <div class="col-lg-5" data-aos="fade-left">
+          <div class="about-banner-container">
+            <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800" 
+                 class="about-banner-img" 
+                 alt="Tadano Sho Banner">
+            <div class="about-banner-overlay">
+              <h2 style="font-family: 'Cinzel', serif; color: var(--accent-gold); letter-spacing: 3px; font-weight: 900; margin: 0;">只野賞</h2>
+              <div style="font-family: 'Cinzel', serif; color: #fff; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px;">TADANO SHO</div>
+              <div class="badge bg-danger text-uppercase px-3 py-1 mt-2 mb-1" style="width: fit-content;">REVIVAL CIRCUIT</div>
+              <p class="small text-muted mb-0">Camaraderie &bull; Competition &bull; Celebration</p>
+            </div>
           </div>
         </div>
 
@@ -457,10 +541,12 @@
     </div>
   </section>
 
-  <!-- Joining The Race (3 Steps Section) -->
+  <!-- ====================================================
+       JOINING THE RACE (Pixso 3-Steps Section)
+  ==================================================== -->
   <section class="container my-5 py-4">
     <div class="text-center mb-4" data-aos="fade-up">
-      <div class="badge bg-white text-danger px-4 py-2 rounded-pill fs-5 fw-bold text-uppercase" style="letter-spacing: 2px; font-family: 'Rajdhani', sans-serif;">
+      <div class="badge bg-white text-danger px-4 py-2 rounded-pill fs-5 fw-bold text-uppercase" style="letter-spacing: 2.5px; font-family: 'Rajdhani', sans-serif;">
         Joining The Race
       </div>
     </div>
@@ -468,6 +554,7 @@
     <div class="red-frame-box p-4" data-aos="fade-up" data-aos-delay="100">
       <div class="row text-center g-4">
         
+        <!-- Step 1 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 1</div>
           <div class="join-icon-box">
@@ -477,6 +564,7 @@
           <p class="small text-muted mt-2">Enter our community hub to receive room codes and updates.</p>
         </div>
 
+        <!-- Step 2 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 2</div>
           <div class="join-icon-box">
@@ -486,6 +574,7 @@
           <p class="small text-muted mt-2">Rooms open 24 hours prior to the race on weekends.</p>
         </div>
 
+        <!-- Step 3 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 3</div>
           <div class="join-icon-box">
@@ -516,17 +605,14 @@
     // ========================================================
     // Live Google Sheets Data Sources
     // ========================================================
-    // Master Standings
     const STANDINGS_JP_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv";
     const STANDINGS_EN_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1135525613&single=true&output=csv";
-
-    // Media & News Tabs
     const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
     const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
     // 1. Fetch & Render Top Leaders in Standings Box
     function loadTopLeaders() {
-      // Top JP Leader
+      // Top JP
       Papa.parse(STANDINGS_JP_URL, {
         download: true,
         header: true,
@@ -548,7 +634,7 @@
         }
       });
 
-      // Top EN Leader
+      // Top EN
       Papa.parse(STANDINGS_EN_URL, {
         download: true,
         header: true,
@@ -571,11 +657,10 @@
       });
     }
 
-    // 2. Fetch & Render Latest 6 Media Thumbnails with Category Badge
+    // 2. Fetch & Render Latest 6 Media Thumbnails
     function loadMedia() {
       const grid = document.getElementById('mediaGrid');
 
-      // Helper for category badge styling
       function getCategoryBadge(cat) {
         if (!cat || cat.trim() === '') return '';
         const c = cat.toLowerCase();
@@ -583,7 +668,6 @@
         if (c.includes('race')) badgeClass = 'badge-races';
         else if (c.includes('classic') || c.includes('show')) badgeClass = 'badge-show';
         else if (c.includes('guide')) badgeClass = 'badge-guide';
-
         return `<span class="media-category-badge ${badgeClass}">${cat.trim()}</span>`;
       }
 
@@ -595,7 +679,15 @@
           const items = (res.data || []).filter(m => m.Title && String(m.Title).trim() !== "").slice(0, 6);
 
           if (items.length === 0) {
-            grid.innerHTML = `<div class="col-12 text-center text-muted py-3">No media items recorded yet.</div>`;
+            // Default Pixso Placeholders
+            grid.innerHTML = `
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-guide">GUIDES</span><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-guide">GUIDES</span><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-races">PAST RACES</span><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-races">PAST RACES</span><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-races">PAST RACES</span><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+              <div class="col-4"><div class="media-card"><span class="media-category-badge badge-guide">GUIDES</span><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
+            `;
             return;
           }
 
@@ -610,15 +702,10 @@
                   ${catBadge}
                   <img src="${thumb}" alt="${m.Title}">
                   <i class="bi bi-play-circle-fill media-play-icon"></i>
-                  <div class="media-title-overlay">${m.Title}</div>
                 </a>
               </div>
             `;
           }).join('');
-        },
-        error: function(err) {
-          console.error("Failed to load media CSV:", err);
-          grid.innerHTML = `<div class="col-12 text-center text-muted py-3">Could not load media feed.</div>`;
         }
       });
     }
@@ -635,21 +722,22 @@
           const items = (res.data || []).filter(n => n.Title && String(n.Title).trim() !== "").slice(0, 3);
 
           if (items.length === 0) {
+            // Default Pixso Placeholders
             list.innerHTML = `
               <a href="news.html" class="news-card">
                 <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb">
                 <div>
-                  <div class="news-title">PHANTOM SPRINT REVIVAL ANNOUNCED</div>
-                  <div class="news-meta">By ewidaria &bull; Oct 2026</div>
-                  <div class="news-desc">The official return of the sprint classic at Chukyo and Nakayama is locked in. Read full rules and course info...</div>
+                  <div class="news-title">TITLE OF ARTICLE HERE</div>
+                  <div class="news-meta">Author &bull; Date</div>
+                  <div class="news-desc">Brief article summary or synopsis will be written and displayed here. A single or two sentence hook and brief context to be expected.</div>
                 </div>
               </a>
               <a href="news.html" class="news-card">
                 <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb">
                 <div>
-                  <div class="news-title">HOW TO TUNE SPRINT ACCELERATION</div>
-                  <div class="news-meta">By Takubenly &bull; Oct 2026</div>
-                  <div class="news-desc">A deep dive into inheritance skills, corner timings, and why stamina management matters even in 1200m...</div>
+                  <div class="news-title">TITLE OF ARTICLE HERE</div>
+                  <div class="news-meta">Author &bull; Date</div>
+                  <div class="news-desc">Brief article summary or synopsis will be written and displayed here. A single or two sentence hook and brief context to be expected.</div>
                 </div>
               </a>
             `;
@@ -670,15 +758,10 @@
               </a>
             `;
           }).join('');
-        },
-        error: function(err) {
-          console.error("Failed to load news CSV:", err);
-          list.innerHTML = `<div class="text-center text-muted py-3">Could not load news feed.</div>`;
         }
       });
     }
 
-    // Run feeds
     loadTopLeaders();
     loadMedia();
     loadNews();
