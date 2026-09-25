@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tadano Sho Revival | Grand Prix Standings</title>
+  <title>Phantom Sprint | Tadano Sho Revival</title>
   
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,17 +11,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- AOS (Animate On Scroll) -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts: Cinzel (Prestige/Logo), Rajdhani (Sports/Numbers), Inter (UI) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #0a0d14;
-      --card-bg: #121722;
+      --bg-dark: #0a0c14;
+      --card-bg: #121522;
       --accent-gold: #f5c518;
       --accent-gold-glow: rgba(245, 197, 24, 0.25);
+      --accent-orange: #ff7700;
+      --accent-purple: #9d4edd;
       --accent-cyan: #00e5ff;
-      --accent-magenta: #ff007f;
       --text-muted: #8e9bb0;
     }
 
@@ -31,16 +32,16 @@
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(20, 30, 55, 0.8), transparent 70%),
-        radial-gradient(circle at 10% 20%, rgba(255, 0, 127, 0.05), transparent 40%),
-        radial-gradient(circle at 90% 20%, rgba(0, 229, 255, 0.05), transparent 40%);
+        radial-gradient(circle at 50% 0%, rgba(30, 20, 50, 0.85), transparent 70%),
+        radial-gradient(circle at 10% 20%, rgba(255, 119, 0, 0.08), transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(157, 78, 221, 0.08), transparent 40%);
       background-attachment: fixed;
     }
 
     .brand-title {
       font-family: 'Cinzel', serif;
       letter-spacing: 2px;
-      background: linear-gradient(135deg, #ffffff 20%, var(--accent-gold) 100%);
+      background: linear-gradient(135deg, #ffffff 15%, var(--accent-orange) 60%, var(--accent-purple) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -48,55 +49,29 @@
     .sub-brand {
       font-size: 0.85rem;
       letter-spacing: 4px;
-      color: var(--accent-cyan);
+      color: var(--accent-orange);
       text-transform: uppercase;
       font-weight: 700;
     }
 
-    /* Event Navigation Hub */
-    .event-hub {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 12px 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .event-hub-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+    .nav-back-btn {
       color: var(--text-muted);
-      font-weight: 700;
-    }
-    .event-link-btn {
-      color: #cbd5e1;
       text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      transition: all 0.25s ease;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
     }
-    .event-link-btn:hover {
+    .nav-back-btn:hover {
       color: #fff;
       border-color: var(--accent-gold);
-      background: rgba(245, 197, 24, 0.15);
-      transform: translateY(-2px);
-    }
-    .event-link-btn.active-event {
-      border-color: #f97316;
-      background: rgba(249, 115, 22, 0.15);
-      color: #fdba74;
-      box-shadow: 0 0 12px rgba(249, 115, 22, 0.25);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     /* Server Toggle Buttons */
@@ -116,10 +91,10 @@
       border-color: rgba(255, 255, 255, 0.35);
     }
     .server-pill.active {
-      background: linear-gradient(135deg, #0284c7, #0369a1);
-      border-color: var(--accent-cyan);
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      border-color: var(--accent-orange);
       color: #fff;
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      box-shadow: 0 0 15px rgba(234, 88, 12, 0.35);
     }
 
     /* Division Switcher Buttons */
@@ -138,7 +113,7 @@
       border-color: rgba(255, 255, 255, 0.3);
     }
     .division-pill.active {
-      background: linear-gradient(135deg, #1b2438, #24314c);
+      background: linear-gradient(135deg, #231b38, #322550);
       border-color: var(--accent-gold);
       color: var(--accent-gold);
       box-shadow: 0 0 20px var(--accent-gold-glow);
@@ -212,11 +187,11 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 16px;
+      padding: 14px;
     }
     .custom-table td {
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 16px;
+      padding: 14px;
       vertical-align: middle;
     }
     .rank-circle {
@@ -234,7 +209,21 @@
     .rank-2 { background: #cbd5e1; color: #000; }
     .rank-3 { background: #cd7f32; color: #fff; }
 
-    /* Transitions & Loaders */
+    .week-chip {
+      display: inline-block;
+      min-width: 28px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+    }
+    .week-chip.gold { background: rgba(245, 197, 24, 0.15); color: var(--accent-gold); }
+    .week-chip.silver { background: rgba(203, 213, 225, 0.15); color: #cbd5e1; }
+    .week-chip.bronze { background: rgba(205, 127, 50, 0.15); color: #cd7f32; }
+
+    /* Transitions */
     .fade-content {
       animation: fadeIn 0.4s ease-out forwards;
     }
@@ -242,35 +231,22 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .loading-pulse {
-      animation: pulse 1.5s infinite ease-in-out;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Top Hero Header -->
-  <div class="container py-5 text-center" data-aos="fade-down">
-    <div class="sub-brand mb-1">Seasonal Grand Prix Revival</div>
-    <h1 class="brand-title display-4 fw-bolder mb-2">只野賞 TADANO SHO</h1>
-    <p class="text-secondary small mb-3">Asynchronous League Circuit &bull; 2026 Season</p>
+  <!-- Top Navigation & Return Link -->
+  <div class="container pt-4">
+    <a href="index.html" class="nav-back-btn">
+      <i class="bi bi-arrow-left"></i> All-Time Standings
+    </a>
+  </div>
 
-    <!-- Events Directory Navigation Hub -->
-    <div class="d-flex justify-content-center mb-4">
-      <div class="event-hub">
-        <span class="event-hub-title"><i class="bi bi-calendar-event me-1"></i> Events:</span>
-        <a href="ps-2026.html" class="event-link-btn active-event">
-          🎃 Phantom Sprint (Oct) <span class="badge bg-danger ms-1" style="font-size: 0.65rem;">Active</span>
-        </a>
-        <span class="event-link-btn text-muted" style="opacity: 0.6; cursor: not-allowed;">
-          ❄️ Arima Kinen (Dec)
-        </span>
-      </div>
-    </div>
+  <!-- Hero Header -->
+  <div class="container py-4 text-center" data-aos="fade-down">
+    <div class="sub-brand mb-1">🎃 October Sprint Classic</div>
+    <h1 class="brand-title display-4 fw-bolder mb-2">PHANTOM SPRINT</h1>
+    <p class="text-secondary small mb-4">Chukyo 1200m (W1-2) &bull; Nakayama 1200m (W3-4 Classic)</p>
 
     <!-- Server Toggle (JP vs EN) -->
     <div class="d-flex justify-content-center gap-2 mb-3">
@@ -283,7 +259,7 @@
     </div>
 
     <!-- Division Switcher Buttons -->
-    <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+    <div class="d-flex justify-content-center gap-2 mt-2 flex-wrap">
       <button class="btn division-pill active" id="btnGraded" onclick="switchDivision('Graded')">
         <i class="bi bi-trophy-fill me-2 text-warning"></i>Graded Division
       </button>
@@ -293,32 +269,35 @@
     </div>
   </div>
 
-  <!-- Main Standings Display Container -->
+  <!-- Main Content Container -->
   <div class="container pb-5">
 
-    <!-- Loading State -->
+    <!-- Loading Spinner -->
     <div id="loadingIndicator" class="text-center py-5 d-none">
       <div class="spinner-border text-warning mb-2" role="status"></div>
-      <div class="text-muted small loading-pulse">Fetching live standings from Google Sheets...</div>
+      <div class="text-muted small">Loading Phantom Sprint results...</div>
     </div>
 
-    <!-- Top 3 Podium (Populated by JS) -->
+    <!-- Top 3 Podium -->
     <div class="row g-4 justify-content-center mb-5 align-items-end" id="podiumContainer" data-aos="fade-up">
       <!-- Generated Dynamically -->
     </div>
 
-    <!-- Standings Table -->
+    <!-- Weekly Breakdown Table -->
     <div class="custom-table" data-aos="fade-up" data-aos-delay="100">
       <div class="table-responsive">
         <table class="table table-dark table-hover align-middle">
           <thead>
             <tr>
-              <th class="text-center" style="width: 80px;">Rank</th>
+              <th class="text-center" style="width: 70px;">Rank</th>
               <th>Trainer</th>
-              <th class="text-center">Points</th>
+              <th class="text-center">W1</th>
+              <th class="text-center">W2</th>
+              <th class="text-center">W3</th>
+              <th class="text-center text-warning">W4 (2x)</th>
+              <th class="text-center text-warning fw-bold">Total Pts</th>
               <th class="text-center">Wins</th>
               <th class="text-center">Podiums</th>
-              <th class="text-center">Races</th>
               <th class="text-center">Avg Pos</th>
             </tr>
           </thead>
@@ -330,23 +309,21 @@
     </div>
     
     <div class="text-center text-muted small mt-4">
-      Races update automatically &bull; Powered by Google Sheets
+      Week 4 awards 2x Points &bull; Auto-synced from Google Sheets
     </div>
   </div>
 
-  <!-- External CDNs -->
+  <!-- External Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   
   <script>
     AOS.init({ duration: 500, once: true });
 
-    // ========================================================
-    // Live Published Google Sheet CSV Links (All-Time JP & EN)
-    // ========================================================
+    // Live Published CSV URLs for Phantom Sprint Tabs
     const SHEET_URLS = {
-      JP: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv",
-      EN: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1135525613&single=true&output=csv"
+      JP: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1767697908&single=true&output=csv",
+      EN: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1620695949&single=true&output=csv"
     };
 
     let currentServer = 'JP';
@@ -355,6 +332,13 @@
 
     function getFallbackAvatar(name) {
       return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name || 'Trainer')}`;
+    }
+
+    function getChipClass(points) {
+      if (points >= 10) return 'gold';
+      if (points === 6) return 'silver';
+      if (points === 4) return 'bronze';
+      return '';
     }
 
     function loadData() {
@@ -375,11 +359,14 @@
           currentEventData = (results.data || [])
             .filter(row => row.Trainer && String(row.Trainer).trim() !== "")
             .map(row => {
-              const pts = row.Points !== undefined ? row.Points : (row.Total_Points !== undefined ? row.Total_Points : 0);
+              const pts = row.Total_Points !== undefined ? row.Total_Points : (row.Points !== undefined ? row.Points : 0);
               return {
-                ...row,
                 Trainer: String(row.Trainer).trim(),
                 Division: String(row.Division || 'Graded').trim(),
+                W1: Number(row.W1_Pts) || 0,
+                W2: Number(row.W2_Pts) || 0,
+                W3: Number(row.W3_Pts) || 0,
+                W4: Number(row.W4_Classic_Pts) || 0,
                 Points: Number(pts) || 0,
                 Wins: Number(row.Wins) || 0,
                 Podiums: Number(row.Podiums) || 0,
@@ -444,7 +431,7 @@
         container.innerHTML = `
           <div class="col-12 text-center py-4 text-muted">
             <i class="bi bi-flag fs-3 d-block mb-2"></i>
-            No race entries recorded for ${currentServer} ${currentDivision} Division yet.
+            No results logged for Phantom Sprint (${currentServer} ${currentDivision}) yet.
           </div>`;
       } else {
         container.innerHTML = `
@@ -466,7 +453,7 @@
           ${top1 ? `
           <div class="col-md-4 col-sm-6 order-1 order-md-2">
             <div class="podium-card podium-1 p-4 pb-5 text-center">
-              <span class="podium-badge bg-warning mb-3 d-inline-block text-dark"><i class="bi bi-crown-fill me-1"></i> Season Leader</span>
+              <span class="podium-badge bg-warning mb-3 d-inline-block text-dark"><i class="bi bi-trophy-fill me-1"></i> Sprint Leader</span>
               <img src="${top1.Avatar || getFallbackAvatar(top1.Trainer)}" 
                    onerror="this.onerror=null; this.src='${getFallbackAvatar(top1.Trainer)}';" 
                    class="podium-avatar mb-3 d-block mx-auto shadow-lg">
@@ -497,7 +484,7 @@
       if (filtered.length === 0) {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7" class="text-center py-4 text-muted">Waiting for race results to be logged in Google Sheets.</td>
+            <td colspan="10" class="text-center py-4 text-muted">Waiting for race results.</td>
           </tr>`;
       } else {
         tableBody.innerHTML = filtered.map((row, index) => {
@@ -516,10 +503,13 @@
                   <span class="fw-bold">${row.Trainer}</span>
                 </div>
               </td>
+              <td class="text-center"><span class="week-chip ${getChipClass(row.W1)}">${row.W1 || '-'}</span></td>
+              <td class="text-center"><span class="week-chip ${getChipClass(row.W2)}">${row.W2 || '-'}</span></td>
+              <td class="text-center"><span class="week-chip ${getChipClass(row.W3)}">${row.W3 || '-'}</span></td>
+              <td class="text-center"><span class="week-chip ${getChipClass(row.W4)} text-warning fw-bold">${row.W4 ? (row.W4 * 2) : '-'}</span></td>
               <td class="text-center fw-bold text-warning fs-5">${row.Points}</td>
               <td class="text-center text-secondary">${row.Wins}</td>
               <td class="text-center text-secondary">${row.Podiums}</td>
-              <td class="text-center text-secondary">${row.Races}</td>
               <td class="text-center text-secondary">${row.Avg_Pos !== null ? row.Avg_Pos.toFixed(2) : '-'}</td>
             </tr>
           `;
