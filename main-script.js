@@ -9,6 +9,21 @@ const STANDINGS_EN_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2
 const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
 const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
+// Helper: Extract YouTube Thumbnail if none provided in Google Sheets
+function getYoutubeThumbnail(url, fallbackThumb) {
+  if (fallbackThumb && fallbackThumb.trim() !== '') {
+    return fallbackThumb.trim();
+  }
+  if (!url) return 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
+  
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  if (match && match[2].length === 11) {
+    return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
+  }
+  return 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
+}
+
 // 1. Fetch & Render Top Leaders in Standings Box
 function loadTopLeaders() {
   // Top JP Leader
@@ -56,7 +71,7 @@ function loadTopLeaders() {
   });
 }
 
-// 2. Fetch & Render Latest 6 Media Thumbnails with Category Badge
+// 2. Fetch & Render Latest 6 Media Thumbnails (Sorted by Newest Date)
 function loadMedia() {
   const grid = document.getElementById('mediaGrid');
 
@@ -76,7 +91,18 @@ function loadMedia() {
     header: true,
     skipEmptyLines: true,
     complete: function(res) {
-      const items = (res.data || []).filter(m => m.Title && String(m.Title).trim() !== "").slice(0, 6);
+      // Clean, calculate timestamp, sort newest first, then take top 6
+      const items = (res.data || [])
+        .filter(m => m.Title && String(m.Title).trim() !== "")
+        .map((m, index) => {
+          const parsedTime = m.Date ? new Date(m.Date).getTime() : NaN;
+          return {
+            ...m,
+            timestamp: !isNaN(parsedTime) ? parsedTime : index
+          };
+        })
+        .sort((a, b) => b.timestamp - a.timestamp) // Newest first
+        .slice(0, 6); // Take latest 6
 
       if (items.length === 0) {
         grid.innerHTML = `<div class="col-12 text-center text-muted py-3">No media items recorded yet.</div>`;
@@ -85,7 +111,7 @@ function loadMedia() {
 
       grid.innerHTML = items.map(m => {
         const link = m.YouTube_URL && m.YouTube_URL.trim() !== "" ? m.YouTube_URL : 'media.html';
-        const thumb = m.Thumbnail_URL && m.Thumbnail_URL.trim() !== "" ? m.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
+        const thumb = getYoutubeThumbnail(m.YouTube_URL, m.Thumbnail_URL);
         const catBadge = getCategoryBadge(m.Category);
 
         return `
@@ -107,7 +133,7 @@ function loadMedia() {
   });
 }
 
-// 3. Fetch & Render Latest 2-3 News Articles
+// 3. Fetch & Render Latest 2-3 News Articles (Sorted by Newest Date)
 function loadNews() {
   const list = document.getElementById('newsList');
 
@@ -116,7 +142,18 @@ function loadNews() {
     header: true,
     skipEmptyLines: true,
     complete: function(res) {
-      const items = (res.data || []).filter(n => n.Title && String(n.Title).trim() !== "").slice(0, 3);
+      // Clean, calculate timestamp, sort newest first, then take top 3
+      const items = (res.data || [])
+        .filter(n => n.Title && String(n.Title).trim() !== "")
+        .map((n, index) => {
+          const parsedTime = n.Date ? new Date(n.Date).getTime() : NaN;
+          return {
+            ...n,
+            timestamp: !isNaN(parsedTime) ? parsedTime : index
+          };
+        })
+        .sort((a, b) => b.timestamp - a.timestamp) // Newest first
+        .slice(0, 3); // Take latest 3
 
       if (items.length === 0) {
         list.innerHTML = `
@@ -162,7 +199,7 @@ function loadNews() {
   });
 }
 
-// Run feeds
+// Run feeds on load
 loadTopLeaders();
 loadMedia();
 loadNews();
