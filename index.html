@@ -571,9 +571,21 @@
       });
     }
 
-    // 2. Fetch & Render Latest 6 Media Thumbnails
+    // 2. Fetch & Render Latest 6 Media Thumbnails with Category Badge
     function loadMedia() {
       const grid = document.getElementById('mediaGrid');
+
+      // Helper for category badge styling
+      function getCategoryBadge(cat) {
+        if (!cat || cat.trim() === '') return '';
+        const c = cat.toLowerCase();
+        let badgeClass = '';
+        if (c.includes('race')) badgeClass = 'badge-races';
+        else if (c.includes('classic') || c.includes('show')) badgeClass = 'badge-show';
+        else if (c.includes('guide')) badgeClass = 'badge-guide';
+
+        return `<span class="media-category-badge ${badgeClass}">${cat.trim()}</span>`;
+      }
 
       Papa.parse(MEDIA_CSV_URL, {
         download: true,
@@ -583,24 +595,19 @@
           const items = (res.data || []).filter(m => m.Title && String(m.Title).trim() !== "").slice(0, 6);
 
           if (items.length === 0) {
-            // Sample placeholders if sheet is still empty
-            grid.innerHTML = `
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Upcoming Race Replay</div></div></div>
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">TDS Guide #1</div></div></div>
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Phantom Sprint Preview</div></div></div>
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">After Classics Talkshow</div></div></div>
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Race Archive</div></div></div>
-              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Sprint Meta Analysis</div></div></div>
-            `;
+            grid.innerHTML = `<div class="col-12 text-center text-muted py-3">No media items recorded yet.</div>`;
             return;
           }
 
           grid.innerHTML = items.map(m => {
             const link = m.YouTube_URL && m.YouTube_URL.trim() !== "" ? m.YouTube_URL : 'media.html';
             const thumb = m.Thumbnail_URL && m.Thumbnail_URL.trim() !== "" ? m.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
+            const catBadge = getCategoryBadge(m.Category);
+
             return `
               <div class="col-4">
                 <a href="${link}" target="_blank" class="media-card d-block">
+                  ${catBadge}
                   <img src="${thumb}" alt="${m.Title}">
                   <i class="bi bi-play-circle-fill media-play-icon"></i>
                   <div class="media-title-overlay">${m.Title}</div>
