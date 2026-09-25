@@ -10,14 +10,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts: Cinzel (Prestige/Logo), Rajdhani (Headers), Inter (Body) -->
+  <!-- Google Fonts: Cinzel, Rajdhani, Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg-dark: #0a0305;
       --card-red-border: #dc2626;
-      --card-red-gradient: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 100%);
       --card-bg-inner: rgba(18, 5, 8, 0.95);
       --accent-gold: #f5c518;
       --text-muted: #b89ca4;
@@ -30,7 +29,7 @@
       overflow-x: hidden;
     }
 
-    /* Hero Section with Haru Urara BG */
+    /* Hero Section */
     .hero-header {
       position: relative;
       background: radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.45), transparent 75%), #150508;
@@ -38,9 +37,10 @@
       text-align: center;
       border-bottom: 2px solid rgba(220, 38, 38, 0.3);
     }
-    .hero-logo {
-      max-width: 320px;
-      filter: drop-shadow(0 0 25px rgba(245, 197, 24, 0.4));
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 3px;
+      color: #fff;
     }
 
     /* Top Nav Pill */
@@ -74,7 +74,7 @@
       color: var(--accent-gold);
     }
 
-    /* Section Red Frame Containers (Pixso Style) */
+    /* Section Red Frame Containers */
     .red-frame-box {
       background: var(--card-bg-inner);
       border: 3px solid var(--card-red-border);
@@ -115,6 +115,7 @@
       cursor: pointer;
       aspect-ratio: 16 / 9;
       background: #000;
+      text-decoration: none;
     }
     .media-card:hover {
       transform: scale(1.03);
@@ -139,8 +140,22 @@
       color: var(--accent-gold);
       transform: translate(-50%, -50%) scale(1.15);
     }
+    .media-title-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-    /* News Item Horizontal Cards */
+    /* News Horizontal Cards */
     .news-card {
       display: flex;
       gap: 16px;
@@ -166,6 +181,7 @@
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      background-color: #1a080d;
     }
     .news-title {
       font-family: 'Rajdhani', sans-serif;
@@ -243,7 +259,7 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    /* Joining The Race (3 Steps) */
+    /* Joining The Race */
     .join-step-badge {
       font-family: 'Rajdhani', sans-serif;
       font-weight: 800;
@@ -283,10 +299,7 @@
   <!-- Top Hero Header -->
   <header class="hero-header">
     <div class="container" data-aos="fade-down">
-      <!-- Tadano Sho Revival Title Graphic -->
-      <h1 class="brand-title display-3 fw-bolder mb-0" style="font-family: 'Cinzel', serif; letter-spacing: 3px; color: #fff;">
-        只野賞
-      </h1>
+      <h1 class="brand-title display-3 fw-bolder mb-0">只野賞</h1>
       <div style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--accent-gold); letter-spacing: 4px; font-weight: 700;">
         TADANO SHO
       </div>
@@ -294,14 +307,13 @@
         Revival
       </div>
 
-      <!-- Pill Navbar (Pixso Layout) -->
+      <!-- Pill Navbar -->
       <div>
         <nav class="nav-pill-container">
           <a href="#about" class="nav-pill-link">About</a>
           <a href="media.html" class="nav-pill-link">Media</a>
           <a href="standings.html" class="nav-pill-link">Standings</a>
           <a href="news.html" class="nav-pill-link">News</a>
-          <!-- Replace DISCORD_INVITE_LINK with your real server invite -->
           <a href="https://discord.gg/YOUR_INVITE_HERE" target="_blank" class="nav-pill-link text-warning">
             <i class="bi bi-discord me-1"></i>Join
           </a>
@@ -322,8 +334,10 @@
           <a href="media.html" class="red-frame-badge">Media</a>
           
           <div class="row g-3 pt-2" id="mediaGrid">
-            <!-- Populated dynamically (6 items) -->
-            <div class="col-12 text-center py-4 text-muted">Loading latest media archives...</div>
+            <div class="col-12 text-center py-4 text-muted">
+              <div class="spinner-border spinner-border-sm text-danger me-2"></div>
+              Loading latest media archives...
+            </div>
           </div>
         </div>
 
@@ -332,8 +346,10 @@
           <a href="news.html" class="red-frame-badge">News</a>
           
           <div class="pt-2" id="newsList">
-            <!-- Populated dynamically (2-3 items) -->
-            <div class="text-center py-4 text-muted">Loading turf dispatches...</div>
+            <div class="text-center py-4 text-muted">
+              <div class="spinner-border spinner-border-sm text-danger me-2"></div>
+              Loading turf dispatches...
+            </div>
           </div>
         </div>
 
@@ -396,7 +412,7 @@
         </div>
 
         <div class="col-lg-5 text-center" data-aos="fade-left">
-          <div class="p-3" style="background: rgba(0,0,0,0.4); border-radius: 20px; border: 2px solid rgba(220, 38, 38, 0.4);">
+          <div class="p-4" style="background: rgba(0,0,0,0.4); border-radius: 20px; border: 2px solid rgba(220, 38, 38, 0.4);">
             <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); letter-spacing: 2px;">只野賞</h3>
             <div class="badge bg-danger text-uppercase px-3 py-1 mb-2">Revival Circuit</div>
             <p class="small text-muted mb-0">Camaraderie &bull; Competition &bull; Celebration</p>
@@ -418,7 +434,6 @@
     <div class="red-frame-box p-4" data-aos="fade-up" data-aos-delay="100">
       <div class="row text-center g-4">
         
-        <!-- Step 1 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 1</div>
           <div class="join-icon-box">
@@ -428,7 +443,6 @@
           <p class="small text-muted mt-2">Enter our community hub to receive room codes and updates.</p>
         </div>
 
-        <!-- Step 2 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 2</div>
           <div class="join-icon-box">
@@ -438,7 +452,6 @@
           <p class="small text-muted mt-2">Rooms open 24 hours prior to the race on weekends.</p>
         </div>
 
-        <!-- Step 3 -->
         <div class="col-md-4">
           <div class="join-step-badge">STEP 3</div>
           <div class="join-icon-box">
@@ -469,46 +482,56 @@
     // ========================================================
     // Live Google Sheets Data Sources
     // ========================================================
-    // Master Standings (Already created)
+    // Master Standings
     const STANDINGS_JP_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=0&single=true&output=csv";
     const STANDINGS_EN_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2wbV5LWkVIGXpJGdbSG9LxUopGIXMuOjyt5w0fkb3olKb6ueMyDWH3hFiS6tbdQfQv5VZdMct3/pub?gid=1135525613&single=true&output=csv";
 
-    // Media & News Sheet Tabs (Replace with her new published CSV URLs)
-    const MEDIA_CSV_URL = ""; 
-    const NEWS_CSV_URL = "";
+    // Media & News Tabs
+    const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
+    const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
     // 1. Fetch & Render Top Leaders in Standings Box
     function loadTopLeaders() {
-      // Load Top JP Leader
+      // Top JP Leader
       Papa.parse(STANDINGS_JP_URL, {
         download: true,
         header: true,
         dynamicTyping: true,
+        skipEmptyLines: true,
         complete: function(res) {
           const rows = (res.data || [])
-            .filter(r => r.Trainer && r.Division && r.Division.toLowerCase() === 'graded')
+            .filter(r => r.Trainer && String(r.Trainer).trim() !== "" && r.Division && r.Division.toLowerCase() === 'graded')
             .sort((a,b) => (b.Points || 0) - (a.Points || 0));
           if (rows.length > 0) {
             document.getElementById('topJpName').innerText = rows[0].Trainer;
             document.getElementById('topJpPoints').innerText = (rows[0].Points || 0) + ' pts';
-            if (rows[0].Avatar) document.getElementById('topJpAvatar').src = rows[0].Avatar;
+            if (rows[0].Avatar) {
+              document.getElementById('topJpAvatar').src = rows[0].Avatar;
+            } else {
+              document.getElementById('topJpAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(rows[0].Trainer)}`;
+            }
           }
         }
       });
 
-      // Load Top EN Leader
+      // Top EN Leader
       Papa.parse(STANDINGS_EN_URL, {
         download: true,
         header: true,
         dynamicTyping: true,
+        skipEmptyLines: true,
         complete: function(res) {
           const rows = (res.data || [])
-            .filter(r => r.Trainer && r.Division && r.Division.toLowerCase() === 'graded')
+            .filter(r => r.Trainer && String(r.Trainer).trim() !== "" && r.Division && r.Division.toLowerCase() === 'graded')
             .sort((a,b) => (b.Points || 0) - (a.Points || 0));
           if (rows.length > 0) {
             document.getElementById('topEnName').innerText = rows[0].Trainer;
             document.getElementById('topEnPoints').innerText = (rows[0].Points || 0) + ' pts';
-            if (rows[0].Avatar) document.getElementById('topEnAvatar').src = rows[0].Avatar;
+            if (rows[0].Avatar) {
+              document.getElementById('topEnAvatar').src = rows[0].Avatar;
+            } else {
+              document.getElementById('topEnAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(rows[0].Trainer)}`;
+            }
           }
         }
       });
@@ -517,32 +540,44 @@
     // 2. Fetch & Render Latest 6 Media Thumbnails
     function loadMedia() {
       const grid = document.getElementById('mediaGrid');
-      if (!MEDIA_CSV_URL) {
-        // Fallback sample mock previews if sheet isn't filled yet
-        grid.innerHTML = `
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-          <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i></div></div>
-        `;
-        return;
-      }
 
       Papa.parse(MEDIA_CSV_URL, {
         download: true,
         header: true,
+        skipEmptyLines: true,
         complete: function(res) {
-          const items = (res.data || []).slice(0, 6); // take top 6
-          grid.innerHTML = items.map(m => `
-            <div class="col-4">
-              <a href="${m.YouTube_URL || 'media.html'}" target="_blank" class="media-card d-block">
-                <img src="${m.Thumbnail_URL || 'https://via.placeholder.com/300x180'}" alt="${m.Title || 'Media'}">
-                <i class="bi bi-play-circle-fill media-play-icon"></i>
-              </a>
-            </div>
-          `).join('');
+          const items = (res.data || []).filter(m => m.Title && String(m.Title).trim() !== "").slice(0, 6);
+
+          if (items.length === 0) {
+            // Sample placeholders if sheet is still empty
+            grid.innerHTML = `
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Upcoming Race Replay</div></div></div>
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">TDS Guide #1</div></div></div>
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Phantom Sprint Preview</div></div></div>
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">After Classics Talkshow</div></div></div>
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Race Archive</div></div></div>
+              <div class="col-4"><div class="media-card"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500"><i class="bi bi-play-circle-fill media-play-icon"></i><div class="media-title-overlay">Sprint Meta Analysis</div></div></div>
+            `;
+            return;
+          }
+
+          grid.innerHTML = items.map(m => {
+            const link = m.YouTube_URL && m.YouTube_URL.trim() !== "" ? m.YouTube_URL : 'media.html';
+            const thumb = m.Thumbnail_URL && m.Thumbnail_URL.trim() !== "" ? m.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
+            return `
+              <div class="col-4">
+                <a href="${link}" target="_blank" class="media-card d-block">
+                  <img src="${thumb}" alt="${m.Title}">
+                  <i class="bi bi-play-circle-fill media-play-icon"></i>
+                  <div class="media-title-overlay">${m.Title}</div>
+                </a>
+              </div>
+            `;
+          }).join('');
+        },
+        error: function(err) {
+          console.error("Failed to load media CSV:", err);
+          grid.innerHTML = `<div class="col-12 text-center text-muted py-3">Could not load media feed.</div>`;
         }
       });
     }
@@ -550,49 +585,59 @@
     // 3. Fetch & Render Latest 2-3 News Articles
     function loadNews() {
       const list = document.getElementById('newsList');
-      if (!NEWS_CSV_URL) {
-        // Fallback sample news if sheet isn't filled yet
-        list.innerHTML = `
-          <a href="news.html" class="news-card">
-            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb">
-            <div>
-              <div class="news-title">PHANTOM SPRINT REVIVAL ANNOUNCED</div>
-              <div class="news-meta">By ewidaria &bull; Oct 2026</div>
-              <div class="news-desc">The official return of the sprint classic at Chukyo and Nakayama is locked in. Read full rules and course info...</div>
-            </div>
-          </a>
-          <a href="news.html" class="news-card">
-            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb">
-            <div>
-              <div class="news-title">HOW TO TUNE SPRINT ACCELERATION</div>
-              <div class="news-meta">By Takubenly &bull; Oct 2026</div>
-              <div class="news-desc">A deep dive into inheritance skills, corner timings, and why stamina management matters even in 1200m...</div>
-            </div>
-          </a>
-        `;
-        return;
-      }
 
       Papa.parse(NEWS_CSV_URL, {
         download: true,
         header: true,
+        skipEmptyLines: true,
         complete: function(res) {
-          const items = (res.data || []).slice(0, 3); // take top 3
-          list.innerHTML = items.map(n => `
-            <a href="article.html?doc=${encodeURIComponent(n.Doc_URL)}" class="news-card">
-              <img src="${n.Thumbnail_URL || 'https://via.placeholder.com/200x120'}" class="news-thumb">
-              <div>
-                <div class="news-title">${n.Title || 'Article Title'}</div>
-                <div class="news-meta">By ${n.Author || 'TDS'} &bull; ${n.Date || ''}</div>
-                <div class="news-desc">${n.Synopsis || ''}</div>
-              </div>
-            </a>
-          `).join('');
+          const items = (res.data || []).filter(n => n.Title && String(n.Title).trim() !== "").slice(0, 3);
+
+          if (items.length === 0) {
+            list.innerHTML = `
+              <a href="news.html" class="news-card">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb">
+                <div>
+                  <div class="news-title">PHANTOM SPRINT REVIVAL ANNOUNCED</div>
+                  <div class="news-meta">By ewidaria &bull; Oct 2026</div>
+                  <div class="news-desc">The official return of the sprint classic at Chukyo and Nakayama is locked in. Read full rules and course info...</div>
+                </div>
+              </a>
+              <a href="news.html" class="news-card">
+                <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb">
+                <div>
+                  <div class="news-title">HOW TO TUNE SPRINT ACCELERATION</div>
+                  <div class="news-meta">By Takubenly &bull; Oct 2026</div>
+                  <div class="news-desc">A deep dive into inheritance skills, corner timings, and why stamina management matters even in 1200m...</div>
+                </div>
+              </a>
+            `;
+            return;
+          }
+
+          list.innerHTML = items.map(n => {
+            const articleLink = n.Doc_URL && n.Doc_URL.trim() !== "" ? `article.html?doc=${encodeURIComponent(n.Doc_URL)}` : 'news.html';
+            const thumb = n.Thumbnail_URL && n.Thumbnail_URL.trim() !== "" ? n.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300';
+            return `
+              <a href="${articleLink}" class="news-card">
+                <img src="${thumb}" class="news-thumb" alt="${n.Title}">
+                <div>
+                  <div class="news-title">${n.Title}</div>
+                  <div class="news-meta">By ${n.Author || 'TDS'} &bull; ${n.Date || ''}</div>
+                  <div class="news-desc">${n.Synopsis || ''}</div>
+                </div>
+              </a>
+            `;
+          }).join('');
+        },
+        error: function(err) {
+          console.error("Failed to load news CSV:", err);
+          list.innerHTML = `<div class="text-center text-muted py-3">Could not load news feed.</div>`;
         }
       });
     }
 
-    // Initialize all feeds
+    // Run feeds
     loadTopLeaders();
     loadMedia();
     loadNews();
