@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Turf Dispatches & News | Tadano Sho Revival</title>
+
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Google Fonts: Cinzel, Rajdhani, Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070002;
+      --card-bg: rgba(18, 5, 8, 0.92);
+      --card-red-border: #dc2626;
+      --neon-red: #ff1a2a;
+      --accent-gold: #f5c518;
+      --accent-gold-glow: rgba(245, 197, 24, 0.25);
+      --text-muted: #a38c92;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #fce7f3;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.35), transparent 75%),
+        radial-gradient(circle at 10% 20%, rgba(185, 28, 28, 0.15), transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(245, 197, 24, 0.08), transparent 45%);
+      background-attachment: fixed;
+    }
+
+    /* Top Return Button */
+    .nav-back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(220, 38, 38, 0.35);
+      border-radius: 20px;
+    }
+    .nav-back-btn:hover {
+      color: #fff;
+      border-color: var(--neon-red);
+      background: rgba(220, 38, 38, 0.15);
+      transform: translateX(-2px);
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #ffffff 15%, #ff4d6d 60%, var(--accent-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(255, 26, 42, 0.3);
+    }
+
+    .sub-brand {
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: var(--neon-red);
+      text-transform: uppercase;
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    /* Category Filter Pills */
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(220, 38, 38, 0.35);
+      color: #cbd5e1;
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: all 0.25s ease;
+      font-family: 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+    }
+    .filter-pill:hover {
+      color: #fff;
+      border-color: var(--neon-red);
+      background: rgba(220, 38, 38, 0.15);
+    }
+    .filter-pill.active {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      border-color: var(--neon-red);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(255, 26, 42, 0.5);
+    }
+
+    /* Red Frame Surrounding Box */
+    .red-frame-box {
+      background: var(--card-bg);
+      border: 3px solid var(--card-red-border);
+      border-radius: 22px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 0 30px rgba(185, 28, 28, 0.25);
+    }
+
+    /* Article Card */
+    .article-card-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid rgba(220, 38, 38, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    .article-card-item:hover {
+      transform: translateY(-6px);
+      border-color: var(--neon-red);
+      box-shadow: 0 0 25px rgba(255, 26, 42, 0.4);
+      color: inherit;
+      background: rgba(220, 38, 38, 0.08);
+    }
+
+    .article-thumb-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #120306;
+      overflow: hidden;
+    }
+    .article-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .article-card-item:hover .article-thumb-wrap img {
+      transform: scale(1.05);
+    }
+
+    /* Category Tag Badges */
+    .category-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(7, 0, 2, 0.88);
+      border: 1px solid rgba(245, 197, 24, 0.6);
+      color: var(--accent-gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+    .badge-tds      { border-color: rgba(255, 26, 42, 0.7); color: #ff758f; }
+    .badge-umamusume { border-color: rgba(244, 114, 182, 0.7); color: #f472b6; }
+    .badge-interview { border-color: rgba(168, 85, 247, 0.7); color: #d8b4fe; }
+    .badge-guide    { border-color: rgba(0, 229, 255, 0.7); color: #67e8f9; }
+
+    .article-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+    .article-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .article-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .article-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .article-card-item:hover .article-title {
+      color: var(--accent-gold);
+    }
+    .article-synopsis {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-read-more {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--neon-red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease, color 0.2s ease;
+    }
+    .article-card-item:hover .article-read-more {
+      color: var(--accent-gold);
+      gap: 10px;
+    }
+
+    /* Custom Pagination */
+    .pagination-custom {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .page-btn:hover {
+      background: rgba(220, 38, 38, 0.2);
+      border-color: var(--neon-red);
+      color: #fff;
+    }
+    .page-btn.active {
+      background: #dc2626;
+      border-color: var(--neon-red);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 26, 42, 0.5);
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Motion */
+    .fade-content {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background: #000;
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation & Return Link -->
+  <div class="container pt-4">
+    <a href="index.html" class="nav-back-btn">
+      <i class="bi bi-arrow-left"></i> Grand Prix Hub
+    </a>
+  </div>
+
+  <!-- Hero Header -->
+  <div class="container py-4 text-center" data-aos="fade-down">
+    <div class="sub-brand mb-1">Turf Dispatches &amp; Articles</div>
+    <h1 class="brand-title display-4 fw-bolder mb-2">NEWS &amp; REPORTS</h1>
+    <p class="text-secondary small mb-4">Official Grand Prix bulletins, strategy guides, interviews, and community dispatches.</p>
+
+    <!-- Category Filter Pills -->
+    <div class="d-flex justify-content-center gap-2 flex-wrap mb-4" id="categoryFilters">
+      <button class="btn filter-pill active" onclick="filterCategory('ALL')">
+        <i class="bi bi-newspaper me-1"></i> All News
+      </button>
+      <button class="btn filter-pill" onclick="filterCategory('TDS News')">
+        <i class="bi bi-trophy-fill me-1 text-danger"></i> TDS News
+      </button>
+      <button class="btn filter-pill" onclick="filterCategory('Umamusume News')">
+        <i class="bi bi-flower1 me-1 text-pink" style="color: #f472b6;"></i> Umamusume News
+      </button>
+      <button class="btn filter-pill" onclick="filterCategory('Interviews')">
+        <i class="bi bi-mic-fill me-1 text-info"></i> Interviews
+      </button>
+      <button class="btn filter-pill" onclick="filterCategory('Guides')">
+        <i class="bi bi-journal-bookmark-fill me-1 text-warning"></i> Guides
+      </button>
+    </div>
+  </div>
+
+  <!-- Main News Grid Container -->
+  <div class="container pb-5">
+    <div class="red-frame-box" data-aos="fade-up" data-aos-delay="100">
+      
+      <!-- Loading State -->
+      <div id="loadingIndicator" class="text-center py-5">
+        <div class="spinner-border text-danger mb-2" role="status"></div>
+        <div class="text-muted small">Loading turf dispatches from Google Sheets...</div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="row g-4 fade-content" id="newsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Pagination Navigation -->
+      <div class="pagination-custom d-none" id="paginationControls">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      Tadano Sho &copy; 2026. All Rights Reserved. Not affiliated with Cygames.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    AOS.init({ duration: 500, once: true });
+
+    // Live News CSV URL
+    const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
+
+    let allNewsData = [];
+    let currentCategory = 'ALL';
+    let currentPage = 1;
+    const ITEMS_PER_PAGE = 6; // 6 article cards per page (2 columns x 3 rows or 3 x 2)
+
+    // Helper: Category badge class
+    function getCategoryBadgeClass(cat) {
+      const c = (cat || '').toLowerCase();
+      if (c.includes('tds')) return 'badge-tds';
+      if (c.includes('uma')) return 'badge-umamusume';
+      if (c.includes('interview')) return 'badge-interview';
+      if (c.includes('guide')) return 'badge-guide';
+      return '';
+    }
+
+    // Helper: Fallback image if thumbnail is blank
+    function getFallbackThumbnail(cat) {
+      const c = (cat || '').toLowerCase();
+      if (c.includes('guide')) return 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600';
+      if (c.includes('interview')) return 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600';
+      return 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600';
+    }
+
+    // Fetch News CSV
+    function loadNews() {
+      const loader = document.getElementById('loadingIndicator');
+      loader.classList.remove('d-none');
+
+      Papa.parse(NEWS_CSV_URL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(res) {
+          loader.classList.add('d-none');
+
+          allNewsData = (res.data || [])
+            .filter(item => item.Title && String(item.Title).trim() !== "")
+            .map((item, index) => {
+              const parsedTime = item.Date ? new Date(item.Date).getTime() : NaN;
+              return {
+                Title: String(item.Title).trim(),
+                Category: String(item.Category || 'TDS News').trim(),
+                Author: String(item.Author || 'TDS Editorial').trim(),
+                Date: item.Date ? String(item.Date).trim() : '',
+                Synopsis: item.Synopsis ? String(item.Synopsis).trim() : '',
+                Doc_URL: item.Doc_URL ? String(item.Doc_URL).trim() : '',
+                Thumbnail_URL: item.Thumbnail_URL ? String(item.Thumbnail_URL).trim() : '',
+                timestamp: !isNaN(parsedTime) ? parsedTime : index
+              };
+            })
+            // SORT BY DATE: Newest first (Descending)
+            .sort((a, b) => b.timestamp - a.timestamp);
+
+          renderGrid();
+        },
+        error: function(err) {
+          loader.classList.add('d-none');
+          console.error("Failed to load news CSV:", err);
+          document.getElementById('newsGrid').innerHTML = `
+            <div class="col-12 text-center text-muted py-5">
+              <i class="bi bi-exclamation-circle fs-2 d-block mb-2 text-danger"></i>
+              Could not load news feed from Google Sheets.
+            </div>`;
+        }
+      });
+    }
+
+    // Filter Category
+    function filterCategory(category) {
+      currentCategory = category;
+      currentPage = 1; // Reset to page 1 on filter switch
+
+      // Update button active states
+      document.querySelectorAll('#categoryFilters .filter-pill').forEach(btn => {
+        if (category === 'ALL') {
+          btn.classList.toggle('active', btn.innerText.includes('All News'));
+        } else {
+          btn.classList.toggle('active', btn.innerText.toLowerCase().includes(category.toLowerCase()));
+        }
+      });
+
+      renderGrid();
+    }
+
+    // Change Page
+    function goToPage(page) {
+      currentPage = page;
+      renderGrid();
+      // Smooth scroll back up to the filter bar
+      document.getElementById('categoryFilters').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Render Article Cards & Pagination
+    function renderGrid() {
+      const grid = document.getElementById('newsGrid');
+      const pagination = document.getElementById('paginationControls');
+
+      // 1. Filter by category
+      const filtered = allNewsData.filter(item => {
+        if (currentCategory === 'ALL') return true;
+        return item.Category.toLowerCase() === currentCategory.toLowerCase();
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-12 text-center text-muted py-5">
+            <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
+            No articles found under "${currentCategory}".
+          </div>`;
+        pagination.classList.add('d-none');
+        return;
+      }
+
+      // 2. Slice for current page
+      const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+      // Render Cards
+      grid.innerHTML = pageItems.map(n => {
+        const thumb = n.Thumbnail_URL && n.Thumbnail_URL !== "" ? n.Thumbnail_URL : getFallbackThumbnail(n.Category);
+        const articleLink = n.Doc_URL && n.Doc_URL !== "" ? `article.html?doc=${encodeURIComponent(n.Doc_URL)}` : '#';
+        const badgeClass = getCategoryBadgeClass(n.Category);
+
+        return `
+          <div class="col-md-6 col-lg-4">
+            <a href="${articleLink}" class="article-card-item">
+              <div class="article-thumb-wrap">
+                <span class="category-tag ${badgeClass}">${n.Category}</span>
+                <img src="${thumb}" alt="${n.Title}" loading="lazy">
+              </div>
+              <div class="article-body">
+                <div>
+                  <div class="article-meta">
+                    <span><i class="bi bi-person-fill text-danger"></i> ${n.Author}</span>
+                    <span><i class="bi bi-calendar3"></i> ${n.Date || '2026'}</span>
+                  </div>
+                  <h3 class="article-title">${n.Title}</h3>
+                  <p class="article-synopsis">${n.Synopsis || 'Click to read full dispatch report...'}</p>
+                </div>
+                <div class="article-read-more">
+                  Read Dispatch <i class="bi bi-arrow-right"></i>
+                </div>
+              </div>
+            </a>
+          </div>
+        `;
+      }).join('');
+
+      // 3. Render Pagination Bar
+      if (totalPages > 1) {
+        pagination.classList.remove('d-none');
+        let paginationHTML = `
+          <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+            <i class="bi bi-chevron-left"></i> Prev
+          </button>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+          paginationHTML += `
+            <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+              ${i}
+            </button>
+          `;
+        }
+
+        paginationHTML += `
+          <button class="page-btn ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+            Next <i class="bi bi-chevron-right"></i>
+          </button>
+        `;
+
+        pagination.innerHTML = paginationHTML;
+      } else {
+        pagination.classList.add('d-none');
+      }
+    }
+
+    // Initial Load
+    loadNews();
+  </script>
+</body>
+</html>
