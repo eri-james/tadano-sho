@@ -22,11 +22,11 @@ body {
   position: relative;
   overflow: hidden;
   background: #150508;
-  min-height: 60vh;
+  min-height: 55vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 50px 20px 32px;
+  padding: 40px 16px 28px;
   text-align: center;
   border-bottom: 2px solid rgba(220, 38, 38, 0.3);
 }
@@ -73,10 +73,10 @@ body {
 /* Master Logo Image */
 .hero-logo-img {
   max-width: 380px;
-  width: 85%;
+  width: 80%;
   height: auto;
   filter: drop-shadow(0 0 30px rgba(255, 26, 42, 0.65)) drop-shadow(0 0 12px rgba(245, 197, 24, 0.4));
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -84,17 +84,18 @@ body {
 
 /* Top Nav Pill */
 .nav-pill-container {
-  background: rgba(185, 28, 28, 0.7);
+  background: rgba(185, 28, 28, 0.75);
   border: 2px solid #ef4444;
   border-radius: 40px;
-  padding: 6px 14px;
+  padding: 6px 12px;
   display: inline-flex;
-  gap: 16px;
+  gap: 10px;
   box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
   margin-top: 10px;
   backdrop-filter: blur(8px);
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 100%;
 }
 
 .nav-pill-link {
@@ -102,12 +103,13 @@ body {
   text-decoration: none;
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 1.5px;
+  font-size: 1.05rem;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 20px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-pill-link:hover {
@@ -119,7 +121,7 @@ body {
 main.container {
   position: relative;
   z-index: 2;
-  margin-bottom: 70px !important;
+  margin-bottom: 60px !important;
 }
 
 /* Section Red Frame Containers */
@@ -148,9 +150,9 @@ main.container {
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 4px 20px;
+  padding: 4px 18px;
   border-radius: 20px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
   text-decoration: none;
 }
@@ -189,7 +191,7 @@ main.container {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.85);
   transition: all 0.2s ease;
 }
@@ -205,8 +207,8 @@ main.container {
   left: 0;
   right: 0;
   background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
-  padding: 6px 10px;
-  font-size: 0.75rem;
+  padding: 4px 8px;
+  font-size: 0.72rem;
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
@@ -217,18 +219,18 @@ main.container {
 /* Media Category Corner Badge */
 .media-category-badge {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(10, 3, 5, 0.85);
+  top: 6px;
+  left: 6px;
+  background: rgba(10, 3, 5, 0.88);
   border: 1px solid rgba(245, 197, 24, 0.5);
   color: var(--accent-gold);
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 6px;
+  padding: 1px 6px;
+  border-radius: 5px;
   backdrop-filter: blur(4px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
   z-index: 2;
@@ -241,12 +243,12 @@ main.container {
 /* News Horizontal Cards */
 .news-card {
   display: flex;
-  gap: 16px;
-  padding: 12px;
+  gap: 14px;
+  padding: 10px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   text-decoration: none;
   color: inherit;
   transition: all 0.2s ease;
@@ -255,13 +257,13 @@ main.container {
 .news-card:hover {
   background: rgba(220, 38, 38, 0.12);
   border-color: rgba(239, 68, 68, 0.4);
-  transform: translateX(4px);
+  transform: translateX(3px);
   color: inherit;
 }
 
 .news-thumb {
-  width: 110px;
-  height: 70px;
+  width: 100px;
+  height: 65px;
   border-radius: 8px;
   object-fit: cover;
   flex-shrink: 0;
@@ -272,19 +274,20 @@ main.container {
 .news-title {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1rem;
   margin-bottom: 2px;
   color: #fff;
+  line-height: 1.25;
 }
 
 .news-meta {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .news-desc {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #cbd5e1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -295,8 +298,8 @@ main.container {
 
 /* Standings Box */
 .standings-avatar-wrapper {
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 4px solid var(--card-red-border);
   padding: 4px;
@@ -317,14 +320,14 @@ main.container {
   font-weight: 800;
   letter-spacing: 2px;
   color: #fff;
-  font-size: 1rem;
-  margin-bottom: 6px;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
 }
 
 .standings-name {
   font-weight: 800;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   letter-spacing: 0.5px;
 }
 
@@ -342,23 +345,23 @@ main.container {
     url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fd.newsweek.com%2Fen%2Ffull%2F2685971%2Fumamusume-girls-racing.jpg&f=1&nofb=1&ipt=a6a0482f432787f1ff9571b85940ca42f4a092d9307acd43384ba4f4c6864c32') center/cover no-repeat;
   border-top: 3px solid #b91c1c;
   border-bottom: 3px solid #b91c1c;
-  padding: 70px 0 80px;
+  padding: 55px 0 65px;
   clear: both;
 }
 
 .about-heading {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 900;
-  font-size: 3.2rem;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
   color: #fff;
   letter-spacing: 3px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
 .about-text {
-  font-size: 1.05rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.75;
   color: #fce7f3;
   text-shadow: 0 2px 6px rgba(0,0,0,0.9);
   max-width: 52ch;
@@ -369,16 +372,16 @@ main.container {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 800;
   letter-spacing: 2px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #fff;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .join-icon-box {
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   color: #fff;
-  margin-bottom: 14px;
-  min-height: 60px;
+  margin-bottom: 10px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -389,7 +392,7 @@ main.container {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 800;
   letter-spacing: 1.5px;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
   color: #fff;
 }
@@ -397,9 +400,76 @@ main.container {
 /* Footer */
 footer {
   background: #000;
-  padding: 24px 0;
+  padding: 20px 0;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS (Mobile Specific Adjustments)
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero-header {
+    min-height: 48vh;
+    padding: 30px 14px 22px;
+  }
+  
+  .hero-logo-img {
+    max-width: 280px;
+  }
+
+  .nav-pill-container {
+    gap: 6px;
+    padding: 4px 8px;
+  }
+
+  .nav-pill-link {
+    font-size: 0.95rem;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+  }
+
+  .red-frame-box {
+    padding: 22px 14px 16px;
+    border-radius: 18px;
+  }
+
+  .red-frame-badge {
+    left: 18px;
+    top: -14px;
+    font-size: 0.85rem;
+    padding: 3px 14px;
+  }
+}
+
+/* Phone screens: adapt media items to 2 columns instead of cramped 3 */
+@media (max-width: 576px) {
+  #mediaGrid > .col-4 {
+    width: 50% !important; /* Changes 3-column micro-thumbnails to readable 2-column cards */
+  }
+
+  .media-title-overlay {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+
+  .media-play-icon {
+    font-size: 1.5rem;
+  }
+
+  .news-card {
+    gap: 10px;
+    padding: 8px;
+  }
+
+  .news-thumb {
+    width: 85px;
+    height: 55px;
+  }
+
+  .about-section {
+    padding: 40px 0 45px;
+  }
 }
