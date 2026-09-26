@@ -8,124 +8,15 @@
   <!-- Bootstrap 5 CSS & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Google Fonts: Cinzel, Rajdhani, Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg-dark: #070002;
-      --card-bg: rgba(18, 5, 8, 0.95);
-      --card-red-border: #dc2626;
-      --neon-red: #ff1a2a;
-      --accent-gold: #f5c518;
-      --text-muted: #a38c92;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: #e2e8f0;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.35), transparent 75%),
-        radial-gradient(circle at 15% 25%, rgba(185, 28, 28, 0.15), transparent 45%),
-        radial-gradient(circle at 85% 30%, rgba(245, 197, 24, 0.08), transparent 45%);
-      background-attachment: fixed;
-    }
-
-    /* Top Return Button */
-    .nav-back-btn {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(220, 38, 38, 0.35);
-      border-radius: 20px;
-    }
-    .nav-back-btn:hover {
-      color: #fff;
-      border-color: var(--neon-red);
-      background: rgba(220, 38, 38, 0.15);
-      transform: translateX(-2px);
-    }
-
-    /* Red Frame Card Reader */
-    .reader-card {
-      background: var(--card-bg);
-      border: 3px solid var(--card-red-border);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 0 35px rgba(185, 28, 28, 0.3);
-      position: relative;
-    }
-    @media (max-width: 768px) {
-      .reader-card {
-        padding: 16px 12px;
-      }
-    }
-
-    /* Embedded Google Doc Styling */
-    .doc-frame-wrapper {
-      width: 100%;
-      height: 82vh;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #ffffff;
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-      position: relative;
-    }
-
-    .doc-frame-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-
-    /* External pop-out button */
-    .popout-btn {
-      color: var(--accent-gold);
-      text-decoration: none;
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .popout-btn:hover {
-      color: #fff;
-      text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
-    }
-
-    /* Footer */
-    footer {
-      background: #000;
-      padding: 24px 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      margin-top: 60px;
-    }
-  </style>
+  <!-- Shared Sub-Pages Stylesheet -->
+  <link rel="stylesheet" href="content-style.css">
 </head>
 <body>
 
-  <!-- Top Navigation & Return Link -->
+  <!-- Top Return Button & Popout -->
   <div class="container pt-4">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
       <a href="news.html" class="nav-back-btn">
@@ -142,7 +33,7 @@
     
     <div class="reader-card" data-aos="fade-up">
 
-      <!-- Loading State (hidden once iframe loads) -->
+      <!-- Loading State -->
       <div id="loadingIndicator" class="text-center py-5">
         <div class="spinner-border text-danger mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
         <div class="text-muted small">Loading document dispatch...</div>
@@ -153,7 +44,7 @@
         <iframe id="docFrame" src="about:blank" onload="onFrameLoad()"></iframe>
       </div>
 
-      <!-- Error State (if URL is missing) -->
+      <!-- Error State -->
       <div id="errorState" class="text-center py-5 d-none">
         <i class="bi bi-journal-x fs-1 text-danger d-block mb-3"></i>
         <h4 class="fw-bold mb-2">No Article Specified</h4>
@@ -173,44 +64,7 @@
 
   <!-- Scripts -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-  <script>
-    AOS.init({ duration: 500, once: true });
-
-    // Read ?doc= parameter from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    let docUrl = urlParams.get('doc');
-
-    const loader = document.getElementById('loadingIndicator');
-    const frameWrap = document.getElementById('frameWrapper');
-    const iframe = document.getElementById('docFrame');
-    const errorBox = document.getElementById('errorState');
-    const popout = document.getElementById('popoutLink');
-
-    if (!docUrl || docUrl.trim() === '') {
-      loader.classList.add('d-none');
-      errorBox.classList.remove('d-none');
-      popout.classList.add('d-none');
-    } else {
-      docUrl = decodeURIComponent(docUrl.trim());
-      
-      // Ensure Google Doc URL has ?embedded=true for a clean reader look
-      let embedUrl = docUrl;
-      if (!embedUrl.includes('embedded=true')) {
-        embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'embedded=true';
-      }
-
-      // Set links
-      popout.href = docUrl;
-      iframe.src = embedUrl;
-    }
-
-    function onFrameLoad() {
-      if (iframe.src && iframe.src !== 'about:blank') {
-        loader.classList.add('d-none');
-        frameWrap.classList.remove('d-none');
-      }
-    }
-  </script>
+  <!-- Shared Sub-Pages Script -->
+  <script src="content-script.js"></script>
 </body>
 </html>
