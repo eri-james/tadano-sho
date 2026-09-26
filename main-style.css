@@ -28,7 +28,7 @@ body {
   justify-content: flex-end;
   padding: 40px 16px 28px;
   text-align: center;
-  border-bottom: 2px solid rgba(220, 38, 38, 0.3);
+  border-bottom: none; /* <-- REMOVE THE BORDER LINE */
 }
 
 .hero-video-wrap {
@@ -57,8 +57,13 @@ body {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(10,3,5,0.45) 0%, rgba(10,3,5,0.30) 45%, rgba(10,3,5,0.92) 100%),
-    radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.35), transparent 70%);
+    radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.35), transparent 70%),
+    linear-gradient(180deg, 
+      rgba(10, 3, 5, 0.45) 0%, 
+      rgba(10, 3, 5, 0.30) 40%, 
+      rgba(10, 3, 5, 0.85) 75%, 
+      #0a0305 100% /* <-- Matches var(--bg-dark) seamlessly */
+    );
 }
 
 @media (prefers-reduced-motion: reduce) {
