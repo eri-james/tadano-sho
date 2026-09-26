@@ -7,6 +7,11 @@ if (typeof AOS !== 'undefined') {
 const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
 const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
+// Helper: Detect mobile device or viewport
+function isMobileDevice() {
+  return window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 // Helper: YouTube Thumbnail
 function getYoutubeThumbnail(url, fallbackThumb) {
   if (fallbackThumb && fallbackThumb.trim() !== '') return fallbackThumb.trim();
@@ -63,7 +68,7 @@ if (mediaGalleryEl) {
               timestamp: !isNaN(parsed) ? parsed : index
             };
           })
-          .sort((a, b) => b.timestamp - a.timestamp); // Newest first
+          .sort((a, b) => b.timestamp - a.timestamp);
 
         renderGallery();
       },
@@ -169,7 +174,7 @@ if (newsGridEl) {
               timestamp: !isNaN(parsed) ? parsed : index
             };
           })
-          .sort((a, b) => b.timestamp - a.timestamp); // Newest first
+          .sort((a, b) => b.timestamp - a.timestamp);
 
         renderGrid();
       },
@@ -199,12 +204,19 @@ if (newsGridEl) {
 
     newsGridEl.innerHTML = pageItems.map(n => {
       const thumb = n.Thumbnail_URL && n.Thumbnail_URL !== "" ? n.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600';
-      const articleLink = n.Doc_URL && n.Doc_URL !== "" ? `article.html?doc=${encodeURIComponent(n.Doc_URL)}` : '#';
+      const hasDoc = n.Doc_URL && n.Doc_URL.trim() !== "";
+      const mobile = isMobileDevice();
+
+      // On mobile: directly open doc in new tab. On desktop: open in article.html
+      const articleLink = hasDoc
+        ? (mobile ? n.Doc_URL.trim() : `article.html?doc=${encodeURIComponent(n.Doc_URL.trim())}`)
+        : '#';
+      const targetAttr = (hasDoc && mobile) ? 'target="_blank"' : '';
       const badgeClass = getCategoryBadgeClass(n.Category);
 
       return `
         <div class="col-md-6 col-lg-4">
-          <a href="${articleLink}" class="article-card-item">
+          <a href="${articleLink}" ${targetAttr} class="article-card-item">
             <div class="article-thumb-wrap">
               <span class="category-tag ${badgeClass}">${n.Category}</span>
               <img src="${thumb}" alt="${n.Title}" loading="lazy">
@@ -283,13 +295,19 @@ if (docFrameEl) {
     if (popout) popout.classList.add('d-none');
   } else {
     docUrl = decodeURIComponent(docUrl.trim());
-    let embedUrl = docUrl;
-    if (!embedUrl.includes('embedded=true')) {
-      embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'embedded=true';
-    }
 
-    if (popout) popout.href = docUrl;
-    docFrameEl.src = embedUrl;
+    // MOBILE AUTO-REDIRECT: If visiting article.html on phone, redirect directly to Google Doc!
+    if (isMobileDevice()) {
+      window.location.replace(docUrl);
+    } else {
+      let embedUrl = docUrl;
+      if (!embedUrl.includes('embedded=true')) {
+        embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'embedded=true';
+      }
+
+      if (popout) popout.href = docUrl;
+      docFrameEl.src = embedUrl;
+    }
   }
 
   window.onFrameLoad = function() {

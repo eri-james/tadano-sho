@@ -9,11 +9,14 @@ const STANDINGS_EN_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbkE2
 const MEDIA_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=0&single=true&output=csv";
 const NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS08jJrOzuXOjKwhtpfvUq55UaYJgYfq8bBmrWh4yjk_7ZoehVhZ_WtEa2eWrwhZ8zqHWR_rD3quKCA/pub?gid=914624242&single=true&output=csv";
 
-// Helper: Extract YouTube Thumbnail if none provided in Google Sheets
+// Helper: Detect mobile device or viewport
+function isMobileDevice() {
+  return window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Helper: YouTube Thumbnail
 function getYoutubeThumbnail(url, fallbackThumb) {
-  if (fallbackThumb && fallbackThumb.trim() !== '') {
-    return fallbackThumb.trim();
-  }
+  if (fallbackThumb && fallbackThumb.trim() !== '') return fallbackThumb.trim();
   if (!url) return 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500';
   
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -26,7 +29,6 @@ function getYoutubeThumbnail(url, fallbackThumb) {
 
 // 1. Fetch & Render Top Leaders in Standings Box
 function loadTopLeaders() {
-  // Top JP Leader
   Papa.parse(STANDINGS_JP_URL, {
     download: true,
     header: true,
@@ -48,7 +50,6 @@ function loadTopLeaders() {
     }
   });
 
-  // Top EN Leader
   Papa.parse(STANDINGS_EN_URL, {
     download: true,
     header: true,
@@ -91,7 +92,6 @@ function loadMedia() {
     header: true,
     skipEmptyLines: true,
     complete: function(res) {
-      // Clean, calculate timestamp, sort newest first, then take top 6
       const items = (res.data || [])
         .filter(m => m.Title && String(m.Title).trim() !== "")
         .map((m, index) => {
@@ -101,8 +101,8 @@ function loadMedia() {
             timestamp: !isNaN(parsedTime) ? parsedTime : index
           };
         })
-        .sort((a, b) => b.timestamp - a.timestamp) // Newest first
-        .slice(0, 6); // Take latest 6
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 6);
 
       if (items.length === 0) {
         grid.innerHTML = `<div class="col-12 text-center text-muted py-3">No media items recorded yet.</div>`;
@@ -133,7 +133,7 @@ function loadMedia() {
   });
 }
 
-// 3. Fetch & Render Latest 2-3 News Articles (Sorted by Newest Date)
+// 3. Fetch & Render Latest 2-3 News Articles (Mobile Direct Link Support)
 function loadNews() {
   const list = document.getElementById('newsList');
 
@@ -142,7 +142,6 @@ function loadNews() {
     header: true,
     skipEmptyLines: true,
     complete: function(res) {
-      // Clean, calculate timestamp, sort newest first, then take top 3
       const items = (res.data || [])
         .filter(n => n.Title && String(n.Title).trim() !== "")
         .map((n, index) => {
@@ -152,36 +151,28 @@ function loadNews() {
             timestamp: !isNaN(parsedTime) ? parsedTime : index
           };
         })
-        .sort((a, b) => b.timestamp - a.timestamp) // Newest first
-        .slice(0, 3); // Take latest 3
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 3);
 
       if (items.length === 0) {
-        list.innerHTML = `
-          <a href="news.html" class="news-card">
-            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300" class="news-thumb" alt="Thumbnail">
-            <div>
-              <div class="news-title">PHANTOM SPRINT REVIVAL ANNOUNCED</div>
-              <div class="news-meta">By ewidaria &bull; Oct 2026</div>
-              <div class="news-desc">The official return of the sprint classic at Chukyo and Nakayama is locked in. Read full rules and course info...</div>
-            </div>
-          </a>
-          <a href="news.html" class="news-card">
-            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300" class="news-thumb" alt="Thumbnail">
-            <div>
-              <div class="news-title">HOW TO TUNE SPRINT ACCELERATION</div>
-              <div class="news-meta">By Takubenly &bull; Oct 2026</div>
-              <div class="news-desc">A deep dive into inheritance skills, corner timings, and why stamina management matters even in 1200m...</div>
-            </div>
-          </a>
-        `;
+        list.innerHTML = `<div class="text-center text-muted py-3">No articles published yet.</div>`;
         return;
       }
 
       list.innerHTML = items.map(n => {
-        const articleLink = n.Doc_URL && n.Doc_URL.trim() !== "" ? `article.html?doc=${encodeURIComponent(n.Doc_URL)}` : 'news.html';
+        const hasDoc = n.Doc_URL && n.Doc_URL.trim() !== "";
+        const mobile = isMobileDevice();
+
+        // On mobile: link directly to the Google Doc in a new tab. On desktop: open in article.html
+        const articleLink = hasDoc
+          ? (mobile ? n.Doc_URL.trim() : `article.html?doc=${encodeURIComponent(n.Doc_URL.trim())}`)
+          : 'news.html';
+
+        const targetAttr = (hasDoc && mobile) ? 'target="_blank"' : '';
         const thumb = n.Thumbnail_URL && n.Thumbnail_URL.trim() !== "" ? n.Thumbnail_URL : 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300';
+
         return `
-          <a href="${articleLink}" class="news-card">
+          <a href="${articleLink}" ${targetAttr} class="news-card">
             <img src="${thumb}" class="news-thumb" alt="${n.Title}">
             <div>
               <div class="news-title">${n.Title}</div>
